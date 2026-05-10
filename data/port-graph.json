@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    { "id": "gate-1", "name": "Gate 1", "kind": "gate", "lat": 5.6380, "lng": 0.0000 },
+    { "id": "gate-2", "name": "Gate 2", "kind": "gate", "lat": 5.6380, "lng": 0.0050 },
+    { "id": "gate-3", "name": "Gate 3", "kind": "gate", "lat": 5.6380, "lng": 0.0100 },
+    { "id": "gate-4", "name": "Gate 4", "kind": "gate", "lat": 5.6380, "lng": 0.0150 },
+    { "id": "gate-5", "name": "Gate 5 (East)", "kind": "gate", "lat": 5.6340, "lng": 0.0180 },
+
+    { "id": "berth-1", "name": "Berth 1", "kind": "berth", "lat": 5.6250, "lng": -0.0020, "dwellTimeRange": [40, 100] },
+    { "id": "berth-2", "name": "Berth 2", "kind": "berth", "lat": 5.6250, "lng": 0.0030, "dwellTimeRange": [40, 100] },
+    { "id": "berth-3", "name": "Berth 3", "kind": "berth", "lat": 5.6250, "lng": 0.0080, "dwellTimeRange": [40, 100] },
+    { "id": "berth-4", "name": "Berth 4", "kind": "berth", "lat": 5.6250, "lng": 0.0130, "dwellTimeRange": [40, 100] },
+
+    { "id": "yard-a", "name": "Yard A", "kind": "yard", "lat": 5.6310, "lng": 0.0010, "dwellTimeRange": [30, 80] },
+    { "id": "yard-b", "name": "Yard B", "kind": "yard", "lat": 5.6310, "lng": 0.0070, "dwellTimeRange": [30, 80] },
+    { "id": "yard-c", "name": "Yard C", "kind": "yard", "lat": 5.6310, "lng": 0.0130, "dwellTimeRange": [30, 80] },
+    { "id": "yard-d", "name": "Yard D", "kind": "yard", "lat": 5.6340, "lng": 0.0040, "dwellTimeRange": [30, 80] },
+    { "id": "yard-e", "name": "Yard E", "kind": "yard", "lat": 5.6340, "lng": 0.0110, "dwellTimeRange": [30, 80] },
+
+    { "id": "weighbridge-1", "name": "Weighbridge", "kind": "weighbridge", "lat": 5.6360, "lng": 0.0080, "dwellTimeRange": [10, 25] },
+    { "id": "customs", "name": "Customs", "kind": "customs", "lat": 5.6370, "lng": 0.0110, "dwellTimeRange": [20, 50] },
+    { "id": "fuel", "name": "Fuel Depot", "kind": "fuel", "lat": 5.6320, "lng": 0.0000, "dwellTimeRange": [10, 20] },
+    { "id": "parking", "name": "Parking", "kind": "parking", "lat": 5.6350, "lng": 0.0140, "dwellTimeRange": [60, 200] },
+
+    { "id": "ext-accra", "name": "Accra (N1)", "kind": "external", "lat": 5.6500, "lng": -0.0150 },
+    { "id": "ext-akosombo", "name": "Akosombo Hwy", "kind": "external", "lat": 5.6500, "lng": 0.0280 }
+  ],
+  "edges": [
+    { "fromNodeId": "gate-1", "toNodeId": "yard-d", "polyline": [[0.0000, 5.6380], [0.0030, 5.6360], [0.0040, 5.6340]], "lengthMeters": 520, "isExternal": false },
+    { "fromNodeId": "gate-2", "toNodeId": "yard-d", "polyline": [[0.0050, 5.6380], [0.0045, 5.6360], [0.0040, 5.6340]], "lengthMeters": 460, "isExternal": false },
+    { "fromNodeId": "gate-3", "toNodeId": "weighbridge-1", "polyline": [[0.0100, 5.6380], [0.0090, 5.6370], [0.0080, 5.6360]], "lengthMeters": 280, "isExternal": false },
+    { "fromNodeId": "gate-4", "toNodeId": "customs", "polyline": [[0.0150, 5.6380], [0.0130, 5.6375], [0.0110, 5.6370]], "lengthMeters": 460, "isExternal": false },
+    { "fromNodeId": "gate-5", "toNodeId": "parking", "polyline": [[0.0180, 5.6340], [0.0160, 5.6345], [0.0140, 5.6350]], "lengthMeters": 460, "isExternal": false },
+
+    { "fromNodeId": "weighbridge-1", "toNodeId": "yard-b", "polyline": [[0.0080, 5.6360], [0.0075, 5.6340], [0.0070, 5.6310]], "lengthMeters": 570, "isExternal": false },
+    { "fromNodeId": "weighbridge-1", "toNodeId": "yard-e", "polyline": [[0.0080, 5.6360], [0.0095, 5.6350], [0.0110, 5.6340]], "lengthMeters": 380, "isExternal": false },
+    { "fromNodeId": "customs", "toNodeId": "yard-c", "polyline": [[0.0110, 5.6370], [0.0120, 5.6340], [0.0130, 5.6310]], "lengthMeters": 700, "isExternal": false },
+    { "fromNodeId": "customs", "toNodeId": "yard-e", "polyline": [[0.0110, 5.6370], [0.0110, 5.6340]], "lengthMeters": 330, "isExternal": false },
+
+    { "fromNodeId": "yard-d", "toNodeId": "yard-a", "polyline": [[0.0040, 5.6340], [0.0025, 5.6325], [0.0010, 5.6310]], "lengthMeters": 510, "isExternal": false },
+    { "fromNodeId": "yard-d", "toNodeId": "yard-b", "polyline": [[0.0040, 5.6340], [0.0055, 5.6325], [0.0070, 5.6310]], "lengthMeters": 510, "isExternal": false },
+    { "fromNodeId": "yard-e", "toNodeId": "yard-c", "polyline": [[0.0110, 5.6340], [0.0120, 5.6325], [0.0130, 5.6310]], "lengthMeters": 460, "isExternal": false },
+    { "fromNodeId": "yard-a", "toNodeId": "yard-b", "polyline": [[0.0010, 5.6310], [0.0070, 5.6310]], "lengthMeters": 670, "isExternal": false },
+    { "fromNodeId": "yard-b", "toNodeId": "yard-c", "polyline": [[0.0070, 5.6310], [0.0130, 5.6310]], "lengthMeters": 670, "isExternal": false },
+
+    { "fromNodeId": "yard-a", "toNodeId": "berth-1", "polyline": [[0.0010, 5.6310], [-0.0005, 5.6280], [-0.0020, 5.6250]], "lengthMeters": 730, "isExternal": false },
+    { "fromNodeId": "yard-a", "toNodeId": "berth-2", "polyline": [[0.0010, 5.6310], [0.0020, 5.6280], [0.0030, 5.6250]], "lengthMeters": 700, "isExternal": false },
+    { "fromNodeId": "yard-b", "toNodeId": "berth-2", "polyline": [[0.0070, 5.6310], [0.0050, 5.6280], [0.0030, 5.6250]], "lengthMeters": 770, "isExternal": false },
+    { "fromNodeId": "yard-b", "toNodeId": "berth-3", "polyline": [[0.0070, 5.6310], [0.0075, 5.6280], [0.0080, 5.6250]], "lengthMeters": 670, "isExternal": false },
+    { "fromNodeId": "yard-c", "toNodeId": "berth-3", "polyline": [[0.0130, 5.6310], [0.0105, 5.6280], [0.0080, 5.6250]], "lengthMeters": 770, "isExternal": false },
+    { "fromNodeId": "yard-c", "toNodeId": "berth-4", "polyline": [[0.0130, 5.6310], [0.0130, 5.6280], [0.0130, 5.6250]], "lengthMeters": 670, "isExternal": false },
+
+    { "fromNodeId": "berth-1", "toNodeId": "berth-2", "polyline": [[-0.0020, 5.6250], [0.0030, 5.6250]], "lengthMeters": 560, "isExternal": false },
+    { "fromNodeId": "berth-2", "toNodeId": "berth-3", "polyline": [[0.0030, 5.6250], [0.0080, 5.6250]], "lengthMeters": 560, "isExternal": false },
+    { "fromNodeId": "berth-3", "toNodeId": "berth-4", "polyline": [[0.0080, 5.6250], [0.0130, 5.6250]], "lengthMeters": 560, "isExternal": false },
+
+    { "fromNodeId": "fuel", "toNodeId": "yard-a", "polyline": [[0.0000, 5.6320], [0.0005, 5.6315], [0.0010, 5.6310]], "lengthMeters": 170, "isExternal": false },
+    { "fromNodeId": "fuel", "toNodeId": "gate-1", "polyline": [[0.0000, 5.6320], [0.0000, 5.6350], [0.0000, 5.6380]], "lengthMeters": 670, "isExternal": false },
+    { "fromNodeId": "parking", "toNodeId": "yard-e", "polyline": [[0.0140, 5.6350], [0.0125, 5.6345], [0.0110, 5.6340]], "lengthMeters": 380, "isExternal": false },
+    { "fromNodeId": "parking", "toNodeId": "customs", "polyline": [[0.0140, 5.6350], [0.0125, 5.6360], [0.0110, 5.6370]], "lengthMeters": 430, "isExternal": false },
+
+    { "fromNodeId": "gate-1", "toNodeId": "ext-accra", "polyline": [[0.0000, 5.6380], [-0.0080, 5.6440], [-0.0150, 5.6500]], "lengthMeters": 2400, "isExternal": true },
+    { "fromNodeId": "gate-2", "toNodeId": "ext-accra", "polyline": [[0.0050, 5.6380], [-0.0050, 5.6440], [-0.0150, 5.6500]], "lengthMeters": 2700, "isExternal": true },
+    { "fromNodeId": "gate-4", "toNodeId": "ext-akosombo", "polyline": [[0.0150, 5.6380], [0.0220, 5.6440], [0.0280, 5.6500]], "lengthMeters": 2200, "isExternal": true },
+    { "fromNodeId": "gate-5", "toNodeId": "ext-akosombo", "polyline": [[0.0180, 5.6340], [0.0230, 5.6420], [0.0280, 5.6500]], "lengthMeters": 2500, "isExternal": true }
+  ]
+}

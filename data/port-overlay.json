@@ -1,0 +1,147 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "kind": "boundary", "name": "Tema Port" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-0.0050, 5.6395],
+          [0.0190, 5.6395],
+          [0.0200, 5.6320],
+          [0.0160, 5.6230],
+          [-0.0035, 5.6230],
+          [-0.0050, 5.6310],
+          [-0.0050, 5.6395]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "berth", "name": "Berth 1", "id": "berth-1" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-0.0035, 5.6260],
+          [-0.0005, 5.6260],
+          [-0.0005, 5.6242],
+          [-0.0035, 5.6242],
+          [-0.0035, 5.6260]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "berth", "name": "Berth 2", "id": "berth-2" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0015, 5.6260],
+          [0.0045, 5.6260],
+          [0.0045, 5.6242],
+          [0.0015, 5.6242],
+          [0.0015, 5.6260]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "berth", "name": "Berth 3", "id": "berth-3" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0065, 5.6260],
+          [0.0095, 5.6260],
+          [0.0095, 5.6242],
+          [0.0065, 5.6242],
+          [0.0065, 5.6260]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "berth", "name": "Berth 4", "id": "berth-4" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0115, 5.6260],
+          [0.0145, 5.6260],
+          [0.0145, 5.6242],
+          [0.0115, 5.6242],
+          [0.0115, 5.6260]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "yard", "name": "Yard A", "id": "yard-a" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-0.0020, 5.6325],
+          [0.0040, 5.6325],
+          [0.0040, 5.6295],
+          [-0.0020, 5.6295],
+          [-0.0020, 5.6325]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "yard", "name": "Yard B", "id": "yard-b" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0050, 5.6325],
+          [0.0100, 5.6325],
+          [0.0100, 5.6295],
+          [0.0050, 5.6295],
+          [0.0050, 5.6325]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "yard", "name": "Yard C", "id": "yard-c" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0110, 5.6325],
+          [0.0160, 5.6325],
+          [0.0160, 5.6295],
+          [0.0110, 5.6295],
+          [0.0110, 5.6325]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "yard", "name": "Yard D", "id": "yard-d" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0020, 5.6355],
+          [0.0065, 5.6355],
+          [0.0065, 5.6330],
+          [0.0020, 5.6330],
+          [0.0020, 5.6355]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "yard", "name": "Yard E", "id": "yard-e" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [0.0090, 5.6355],
+          [0.0140, 5.6355],
+          [0.0140, 5.6330],
+          [0.0090, 5.6330],
+          [0.0090, 5.6355]
+        ]]
+      }
+    }
+  ]
+}

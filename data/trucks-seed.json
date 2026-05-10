@@ -1,0 +1,431 @@
+[
+  {
+    "id": "GPHA-T-0142",
+    "plateNumber": "GR 1234-22",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kwame Asante", "phone": "+233 24 555 0142" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6280, "lng": 0.0030, "heading": 180, "speedKmh": 42 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, MSC, ex-Rotterdam",
+      "weightTonnes": 28.4,
+      "containerNumber": "MSCU-7384921"
+    },
+    "lastStopped": { "locationName": "Gate 1", "lat": 5.6380, "lng": 0.0000, "timestamp": "2026-05-10T14:11:00Z" },
+    "lastUnloaded": { "locationName": "Yard B", "cargoDescription": "Empty container, returned to depot", "timestamp": "2026-05-10T12:51:00Z" },
+    "currentRoute": {
+      "originNodeId": "gate-1",
+      "destinationNodeId": "berth-4",
+      "waypointNodeIds": ["yard-a", "yard-b", "berth-4"],
+      "etaTimestamp": "2026-05-10T14:31:00Z",
+      "progressPercent": 64
+    }
+  },
+  {
+    "id": "GPHA-T-0091",
+    "plateNumber": "GR 7842-21",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kofi Mensah", "phone": "+233 27 555 0091" },
+    "status": "loading",
+    "currentLocation": { "lat": 5.6310, "lng": 0.0070, "heading": 90, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "20ft container, Maersk, ex-Shanghai",
+      "weightTonnes": 18.2,
+      "containerNumber": "MAEU-1184426"
+    },
+    "lastStopped": { "locationName": "Yard B", "lat": 5.6310, "lng": 0.0070, "timestamp": "2026-05-10T13:58:00Z" },
+    "lastUnloaded": { "locationName": "Berth 3", "cargoDescription": "40ft container, CMA-CGM", "timestamp": "2026-05-10T11:14:00Z" }
+  },
+  {
+    "id": "GPHA-T-0337",
+    "plateNumber": "GR 4421-23",
+    "vehicleType": "flatbed",
+    "driver": { "name": "Yaw Owusu", "phone": "+233 20 555 0337" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6440, "lng": -0.0080, "heading": 315, "speedKmh": 58 },
+    "currentCargo": {
+      "type": "bulk",
+      "description": "Cocoa beans, jute sacks",
+      "weightTonnes": 24.0
+    },
+    "lastStopped": { "locationName": "Gate 2", "lat": 5.6380, "lng": 0.0050, "timestamp": "2026-05-10T14:18:00Z" },
+    "lastUnloaded": { "locationName": "Berth 2", "cargoDescription": "Bauxite ore, 28t", "timestamp": "2026-05-10T13:02:00Z" },
+    "currentRoute": {
+      "originNodeId": "gate-2",
+      "destinationNodeId": "ext-accra",
+      "waypointNodeIds": ["ext-accra"],
+      "etaTimestamp": "2026-05-10T14:42:00Z",
+      "progressPercent": 38
+    }
+  },
+  {
+    "id": "GPHA-T-0218",
+    "plateNumber": "GR 9981-24",
+    "vehicleType": "terminal_tractor",
+    "driver": { "name": "Kwabena Boateng", "phone": "+233 24 555 0218" },
+    "status": "unloading",
+    "currentLocation": { "lat": 5.6250, "lng": 0.0080, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft refrigerated, frozen fish, ex-Vigo",
+      "weightTonnes": 26.7,
+      "containerNumber": "HLBU-5678901"
+    },
+    "lastStopped": { "locationName": "Yard C", "lat": 5.6310, "lng": 0.0130, "timestamp": "2026-05-10T14:05:00Z" },
+    "lastUnloaded": { "locationName": "Berth 3", "cargoDescription": "Empty container", "timestamp": "2026-05-10T10:30:00Z" }
+  },
+  {
+    "id": "GPHA-T-0405",
+    "plateNumber": "GR 2233-22",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kwaku Agyeman", "phone": "+233 26 555 0405" },
+    "status": "idle",
+    "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
+    "currentCargo": { "type": "empty", "description": "Empty container, awaiting next dispatch", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Parking", "lat": 5.6350, "lng": 0.0140, "timestamp": "2026-05-10T13:30:00Z" },
+    "lastUnloaded": { "locationName": "Berth 4", "cargoDescription": "20ft container, Hapag-Lloyd", "timestamp": "2026-05-10T13:05:00Z" }
+  },
+  {
+    "id": "GPHA-T-0512",
+    "plateNumber": "GR 6754-23",
+    "vehicleType": "tanker",
+    "driver": { "name": "Kwasi Adjei", "phone": "+233 24 555 0512" },
+    "status": "loading",
+    "currentLocation": { "lat": 5.6320, "lng": 0.0000, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "liquid",
+      "description": "Diesel, refinery transfer",
+      "weightTonnes": 22.0
+    },
+    "lastStopped": { "locationName": "Fuel Depot", "lat": 5.6320, "lng": 0.0000, "timestamp": "2026-05-10T14:00:00Z" },
+    "lastUnloaded": { "locationName": "Yard A", "cargoDescription": "Diesel transfer", "timestamp": "2026-05-10T11:45:00Z" }
+  },
+  {
+    "id": "GPHA-T-0078",
+    "plateNumber": "GR 1144-21",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Ekow Darko", "phone": "+233 27 555 0078" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6325, "lng": 0.0085, "heading": 220, "speedKmh": 18 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, COSCO, ex-Ningbo",
+      "weightTonnes": 27.1,
+      "containerNumber": "COSU-5512347"
+    },
+    "lastStopped": { "locationName": "Weighbridge", "lat": 5.6360, "lng": 0.0080, "timestamp": "2026-05-10T14:14:00Z" },
+    "lastUnloaded": { "locationName": "Berth 3", "cargoDescription": "Empty container", "timestamp": "2026-05-10T13:18:00Z" },
+    "currentRoute": {
+      "originNodeId": "weighbridge-1",
+      "destinationNodeId": "berth-3",
+      "waypointNodeIds": ["yard-b", "berth-3"],
+      "etaTimestamp": "2026-05-10T14:27:00Z",
+      "progressPercent": 52
+    }
+  },
+  {
+    "id": "GPHA-T-0623",
+    "plateNumber": "GR 8865-22",
+    "vehicleType": "flatbed",
+    "driver": { "name": "Abena Amoah", "phone": "+233 24 555 0623" },
+    "status": "idle",
+    "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
+    "currentCargo": { "type": "empty", "description": "Awaiting bulk dispatch", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Parking", "lat": 5.6350, "lng": 0.0140, "timestamp": "2026-05-10T13:10:00Z" },
+    "lastUnloaded": { "locationName": "Berth 1", "cargoDescription": "Manganese ore, 30t", "timestamp": "2026-05-10T12:48:00Z" }
+  },
+  {
+    "id": "GPHA-T-0189",
+    "plateNumber": "GR 3322-23",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Akwasi Appiah", "phone": "+233 26 555 0189" },
+    "status": "offline",
+    "currentLocation": { "lat": 5.6310, "lng": 0.0130, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, Evergreen, ex-Kaohsiung",
+      "weightTonnes": 25.9,
+      "containerNumber": "EGHU-9911223"
+    },
+    "lastStopped": { "locationName": "Yard C", "lat": 5.6310, "lng": 0.0130, "timestamp": "2026-05-10T13:42:00Z" },
+    "lastUnloaded": { "locationName": "Berth 4", "cargoDescription": "20ft container", "timestamp": "2026-05-10T12:11:00Z" }
+  },
+  {
+    "id": "GPHA-T-0271",
+    "plateNumber": "GR 5566-24",
+    "vehicleType": "terminal_tractor",
+    "driver": { "name": "Yaw Tetteh", "phone": "+233 20 555 0271" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6280, "lng": 0.0130, "heading": 0, "speedKmh": 22 },
+    "currentCargo": { "type": "empty", "description": "Repositioning, empty chassis", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Berth 4", "lat": 5.6250, "lng": 0.0130, "timestamp": "2026-05-10T14:17:00Z" },
+    "lastUnloaded": { "locationName": "Yard C", "cargoDescription": "40ft container", "timestamp": "2026-05-10T13:55:00Z" },
+    "currentRoute": {
+      "originNodeId": "berth-4",
+      "destinationNodeId": "yard-c",
+      "waypointNodeIds": ["yard-c"],
+      "etaTimestamp": "2026-05-10T14:25:00Z",
+      "progressPercent": 72
+    }
+  },
+  {
+    "id": "GPHA-T-0454",
+    "plateNumber": "GR 7711-23",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kofi Quaye", "phone": "+233 24 555 0454" },
+    "status": "unloading",
+    "currentLocation": { "lat": 5.6250, "lng": 0.0130, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, ONE, ex-Yokohama",
+      "weightTonnes": 24.5,
+      "containerNumber": "ONEU-3344558"
+    },
+    "lastStopped": { "locationName": "Berth 4", "lat": 5.6250, "lng": 0.0130, "timestamp": "2026-05-10T14:23:30Z" },
+    "lastUnloaded": { "locationName": "Yard B", "cargoDescription": "Empty container", "timestamp": "2026-05-10T12:33:00Z" }
+  },
+  {
+    "id": "GPHA-T-0167",
+    "plateNumber": "GR 9988-21",
+    "vehicleType": "flatbed",
+    "driver": { "name": "Kwame Acheampong", "phone": "+233 27 555 0167" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6395, "lng": 0.0140, "heading": 45, "speedKmh": 51 },
+    "currentCargo": {
+      "type": "bulk",
+      "description": "Crude palm oil drums",
+      "weightTonnes": 20.0
+    },
+    "lastStopped": { "locationName": "Gate 4", "lat": 5.6380, "lng": 0.0150, "timestamp": "2026-05-10T14:19:00Z" },
+    "lastUnloaded": { "locationName": "Berth 2", "cargoDescription": "Bauxite, 28t", "timestamp": "2026-05-10T13:25:00Z" },
+    "currentRoute": {
+      "originNodeId": "gate-4",
+      "destinationNodeId": "ext-akosombo",
+      "waypointNodeIds": ["ext-akosombo"],
+      "etaTimestamp": "2026-05-10T14:38:00Z",
+      "progressPercent": 22
+    }
+  },
+  {
+    "id": "GPHA-T-0589",
+    "plateNumber": "GR 2244-24",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kwaku Frimpong", "phone": "+233 26 555 0589" },
+    "status": "idle",
+    "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
+    "currentCargo": { "type": "empty", "description": "Empty container, awaiting next assignment", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Parking", "lat": 5.6350, "lng": 0.0140, "timestamp": "2026-05-10T12:45:00Z" },
+    "lastUnloaded": { "locationName": "Berth 1", "cargoDescription": "20ft container", "timestamp": "2026-05-10T12:20:00Z" }
+  },
+  {
+    "id": "GPHA-T-0302",
+    "plateNumber": "GR 6677-22",
+    "vehicleType": "terminal_tractor",
+    "driver": { "name": "Kwabena Osei", "phone": "+233 24 555 0302" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6330, "lng": 0.0050, "heading": 270, "speedKmh": 16 },
+    "currentCargo": {
+      "type": "container",
+      "description": "20ft container, Yang Ming",
+      "weightTonnes": 17.8,
+      "containerNumber": "YMLU-4477128"
+    },
+    "lastStopped": { "locationName": "Yard D", "lat": 5.6340, "lng": 0.0040, "timestamp": "2026-05-10T14:15:00Z" },
+    "lastUnloaded": { "locationName": "Berth 2", "cargoDescription": "40ft container", "timestamp": "2026-05-10T13:48:00Z" },
+    "currentRoute": {
+      "originNodeId": "yard-d",
+      "destinationNodeId": "yard-a",
+      "waypointNodeIds": ["yard-a"],
+      "etaTimestamp": "2026-05-10T14:24:00Z",
+      "progressPercent": 60
+    }
+  },
+  {
+    "id": "GPHA-T-0476",
+    "plateNumber": "GR 8833-23",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kofi Ofori", "phone": "+233 27 555 0476" },
+    "status": "unloading",
+    "currentLocation": { "lat": 5.6310, "lng": 0.0010, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, Hapag-Lloyd, ex-Hamburg",
+      "weightTonnes": 26.3,
+      "containerNumber": "HLBU-2233557"
+    },
+    "lastStopped": { "locationName": "Yard A", "lat": 5.6310, "lng": 0.0010, "timestamp": "2026-05-10T14:08:00Z" },
+    "lastUnloaded": { "locationName": "Berth 1", "cargoDescription": "Empty container", "timestamp": "2026-05-10T12:55:00Z" }
+  },
+  {
+    "id": "GPHA-T-0631",
+    "plateNumber": "GR 4477-24",
+    "vehicleType": "tanker",
+    "driver": { "name": "Ekow Kwarteng", "phone": "+233 24 555 0631" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6360, "lng": 0.0000, "heading": 360, "speedKmh": 14 },
+    "currentCargo": {
+      "type": "liquid",
+      "description": "Refined petroleum, refinery delivery",
+      "weightTonnes": 21.5
+    },
+    "lastStopped": { "locationName": "Fuel Depot", "lat": 5.6320, "lng": 0.0000, "timestamp": "2026-05-10T14:12:00Z" },
+    "lastUnloaded": { "locationName": "Gate 1", "cargoDescription": "Diesel, 22t", "timestamp": "2026-05-10T13:38:00Z" },
+    "currentRoute": {
+      "originNodeId": "fuel",
+      "destinationNodeId": "gate-1",
+      "waypointNodeIds": ["gate-1"],
+      "etaTimestamp": "2026-05-10T14:28:00Z",
+      "progressPercent": 68
+    }
+  },
+  {
+    "id": "GPHA-T-0205",
+    "plateNumber": "GR 1199-22",
+    "vehicleType": "flatbed",
+    "driver": { "name": "Yaw Yeboah", "phone": "+233 26 555 0205" },
+    "status": "loading",
+    "currentLocation": { "lat": 5.6250, "lng": -0.0020, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "bulk",
+      "description": "Manganese ore, ex-Nsuta mine",
+      "weightTonnes": 30.0
+    },
+    "lastStopped": { "locationName": "Berth 1", "lat": 5.6250, "lng": -0.0020, "timestamp": "2026-05-10T13:55:00Z" },
+    "lastUnloaded": { "locationName": "Yard A", "cargoDescription": "Empty flatbed", "timestamp": "2026-05-10T12:18:00Z" }
+  },
+  {
+    "id": "GPHA-T-0388",
+    "plateNumber": "GR 5599-21",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Akwasi Sarpong", "phone": "+233 27 555 0388" },
+    "status": "idle",
+    "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
+    "currentCargo": { "type": "empty", "description": "Empty container, end-of-shift parking", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Parking", "lat": 5.6350, "lng": 0.0140, "timestamp": "2026-05-10T11:55:00Z" },
+    "lastUnloaded": { "locationName": "Berth 3", "cargoDescription": "20ft container", "timestamp": "2026-05-10T11:30:00Z" }
+  },
+  {
+    "id": "GPHA-T-0517",
+    "plateNumber": "GR 7733-23",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kwame Antwi", "phone": "+233 24 555 0517" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6360, "lng": 0.0095, "heading": 200, "speedKmh": 19 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, MSC, ex-Antwerp",
+      "weightTonnes": 27.8,
+      "containerNumber": "MSCU-6677123"
+    },
+    "lastStopped": { "locationName": "Gate 3", "lat": 5.6380, "lng": 0.0100, "timestamp": "2026-05-10T14:20:00Z" },
+    "lastUnloaded": { "locationName": "Yard B", "cargoDescription": "Empty container", "timestamp": "2026-05-10T13:00:00Z" },
+    "currentRoute": {
+      "originNodeId": "gate-3",
+      "destinationNodeId": "berth-3",
+      "waypointNodeIds": ["weighbridge-1", "yard-b", "berth-3"],
+      "etaTimestamp": "2026-05-10T14:34:00Z",
+      "progressPercent": 28
+    }
+  },
+  {
+    "id": "GPHA-T-0264",
+    "plateNumber": "GR 9911-24",
+    "vehicleType": "terminal_tractor",
+    "driver": { "name": "Kofi Bediako", "phone": "+233 26 555 0264" },
+    "status": "unloading",
+    "currentLocation": { "lat": 5.6250, "lng": 0.0030, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, MSC",
+      "weightTonnes": 24.0,
+      "containerNumber": "MSCU-8899221"
+    },
+    "lastStopped": { "locationName": "Yard A", "lat": 5.6310, "lng": 0.0010, "timestamp": "2026-05-10T13:48:00Z" },
+    "lastUnloaded": { "locationName": "Berth 2", "cargoDescription": "Empty container", "timestamp": "2026-05-10T12:30:00Z" }
+  },
+  {
+    "id": "GPHA-T-0432",
+    "plateNumber": "GR 3355-22",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kwabena Adjei", "phone": "+233 27 555 0432" },
+    "status": "offline",
+    "currentLocation": { "lat": 5.6435, "lng": 0.0210, "heading": 45, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "40ft container, OOCL, ex-Hong Kong",
+      "weightTonnes": 26.4,
+      "containerNumber": "OOLU-1122334"
+    },
+    "lastStopped": { "locationName": "Akosombo Hwy", "lat": 5.6435, "lng": 0.0210, "timestamp": "2026-05-10T13:32:00Z" },
+    "lastUnloaded": { "locationName": "Berth 4", "cargoDescription": "Empty container", "timestamp": "2026-05-10T12:05:00Z" }
+  },
+  {
+    "id": "GPHA-T-0598",
+    "plateNumber": "GR 6622-23",
+    "vehicleType": "flatbed",
+    "driver": { "name": "Yaw Mensah", "phone": "+233 24 555 0598" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6325, "lng": 0.0125, "heading": 180, "speedKmh": 17 },
+    "currentCargo": {
+      "type": "bulk",
+      "description": "Cocoa beans, jute sacks",
+      "weightTonnes": 23.5
+    },
+    "lastStopped": { "locationName": "Customs", "lat": 5.6370, "lng": 0.0110, "timestamp": "2026-05-10T14:09:00Z" },
+    "lastUnloaded": { "locationName": "Yard C", "cargoDescription": "Empty flatbed", "timestamp": "2026-05-10T13:20:00Z" },
+    "currentRoute": {
+      "originNodeId": "customs",
+      "destinationNodeId": "berth-3",
+      "waypointNodeIds": ["yard-c", "berth-3"],
+      "etaTimestamp": "2026-05-10T14:30:00Z",
+      "progressPercent": 44
+    }
+  },
+  {
+    "id": "GPHA-T-0349",
+    "plateNumber": "GR 4488-21",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Kwasi Owusu", "phone": "+233 20 555 0349" },
+    "status": "loading",
+    "currentLocation": { "lat": 5.6310, "lng": 0.0130, "heading": 0, "speedKmh": 0 },
+    "currentCargo": {
+      "type": "container",
+      "description": "20ft container, PIL, ex-Singapore",
+      "weightTonnes": 19.2,
+      "containerNumber": "PCIU-3344556"
+    },
+    "lastStopped": { "locationName": "Yard C", "lat": 5.6310, "lng": 0.0130, "timestamp": "2026-05-10T14:02:00Z" },
+    "lastUnloaded": { "locationName": "Berth 4", "cargoDescription": "Empty container", "timestamp": "2026-05-10T13:11:00Z" }
+  },
+  {
+    "id": "GPHA-T-0156",
+    "plateNumber": "GR 7799-24",
+    "vehicleType": "container_truck",
+    "driver": { "name": "Ekow Asante", "phone": "+233 26 555 0156" },
+    "status": "in_transit",
+    "currentLocation": { "lat": 5.6420, "lng": -0.0030, "heading": 320, "speedKmh": 54 },
+    "currentCargo": { "type": "empty", "description": "Empty container, returning to depot", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Gate 1", "lat": 5.6380, "lng": 0.0000, "timestamp": "2026-05-10T14:21:00Z" },
+    "lastUnloaded": { "locationName": "Berth 2", "cargoDescription": "40ft container", "timestamp": "2026-05-10T13:42:00Z" },
+    "currentRoute": {
+      "originNodeId": "gate-1",
+      "destinationNodeId": "ext-accra",
+      "waypointNodeIds": ["ext-accra"],
+      "etaTimestamp": "2026-05-10T14:36:00Z",
+      "progressPercent": 35
+    }
+  },
+  {
+    "id": "GPHA-T-0728",
+    "plateNumber": "GR 2266-22",
+    "vehicleType": "terminal_tractor",
+    "driver": { "name": "Kwame Boateng", "phone": "+233 24 555 0728" },
+    "status": "idle",
+    "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
+    "currentCargo": { "type": "empty", "description": "Empty chassis", "weightTonnes": 0 },
+    "lastStopped": { "locationName": "Parking", "lat": 5.6350, "lng": 0.0140, "timestamp": "2026-05-10T13:18:00Z" },
+    "lastUnloaded": { "locationName": "Yard E", "cargoDescription": "40ft container", "timestamp": "2026-05-10T12:42:00Z" }
+  }
+]

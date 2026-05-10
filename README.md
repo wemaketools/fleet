@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GPHA Cargo Tracker
+
+A pitch-ready proof of concept for Ghana Ports and Harbours Authority: a live Tema Port operations dashboard with simulated cargo trucks, status changes, route progress, and a searchable fleet panel.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For the intended demo experience, open the app on desktop or tablet.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Demo Flow
 
-## Learn More
+- The first load connects to the SSE simulator and fills the fleet list from the live snapshot.
+- Trucks move around the Tema port map with wake trails, clustering, and a selected-truck pulse.
+- Use search to find a truck by ID, plate, or driver, then click a card or marker for live details.
+- Toggle status chips to isolate in-transit, loading, unloading, idle, or offline vehicles.
+- Select a moving truck and enable Follow to keep it in view while the route progress updates.
+- Use the speed control to accelerate the pitch narrative and trigger dwell/status changes quickly.
 
-To learn more about Next.js, take a look at the following resources:
+## Pitch Talking Points
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Real GPS feeds can replace the simulator behind the same stream contract.
+- The dashboard is intentionally database-free for the POC, keeping the live demo cheap and simple.
+- The UI already demonstrates operational patterns GPHA will care about: live location, cargo context, last stop, route progress, offline vehicles, and recent unload history.
+- SSE is a good fit for one-way tracker updates and works well with Vercel-hosted Node.js functions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Phase 2 Backlog
 
-## Deploy on Vercel
+- Real GPS ingestion via authenticated webhook.
+- Persistence with Postgres for truck history and replay.
+- Historical playback with a time scrubber.
+- Dwell-time reports and berth throughput analytics.
+- Alert rules for long stops, route deviation, and offline trackers.
+- Auth and operator/supervisor roles.
+- Multi-port support for Takoradi and future terminals.
+- Geofencing and manifest/customs integrations.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy on Vercel as a Next.js project. The planned memorable alias is `gpha-tracker.vercel.app`.

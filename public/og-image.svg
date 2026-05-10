@@ -1,0 +1,35 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GPHA Cargo Tracker">
+  <rect width="1200" height="630" fill="#0B0F19"/>
+  <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(930 140) rotate(132) scale(520 420)">
+    <stop stop-color="#CE1126" stop-opacity="0.42"/>
+    <stop offset="1" stop-color="#CE1126" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M105 440C230 360 325 390 445 310C570 227 674 238 775 196C858 161 945 102 1092 124" stroke="#334155" stroke-width="3" stroke-dasharray="12 18"/>
+  <path d="M102 464C247 390 336 416 474 334C611 253 704 258 811 216C895 183 969 132 1098 151" stroke="#475569" stroke-width="2"/>
+  <rect x="86" y="74" width="96" height="96" rx="24" fill="#CE1126"/>
+  <path d="M104 132.5L134 98L164 132.5H151.5L134 112L116.5 132.5H104Z" fill="#FCD116"/>
+  <path d="M112 138H156V146H112V138Z" fill="#006B3F"/>
+  <path d="M123 130H145V138H123V130Z" fill="#0B0F19"/>
+  <circle cx="134" cy="125" r="5" fill="#F8FAFC"/>
+  <text x="86" y="238" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="68" font-weight="700">GPHA Cargo Tracker</text>
+  <text x="90" y="298" fill="#94A3B8" font-family="Arial, sans-serif" font-size="30">Live Tema Port fleet operations dashboard</text>
+  <g transform="translate(86 382)">
+    <rect width="242" height="76" rx="18" fill="#0F172A" stroke="#1E293B"/>
+    <circle cx="38" cy="38" r="10" fill="#3B82F6"/>
+    <text x="64" y="34" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="18" font-weight="700">25 simulated trucks</text>
+    <text x="64" y="56" fill="#64748B" font-family="Arial, sans-serif" font-size="14">SSE + smooth map motion</text>
+  </g>
+  <g transform="translate(352 382)">
+    <rect width="236" height="76" rx="18" fill="#0F172A" stroke="#1E293B"/>
+    <circle cx="38" cy="38" r="10" fill="#F59E0B"/>
+    <text x="64" y="34" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="18" font-weight="700">Status transitions</text>
+    <text x="64" y="56" fill="#64748B" font-family="Arial, sans-serif" font-size="14">Loading, unloading, idle</text>
+  </g>
+  <g transform="translate(612 382)">
+    <rect width="236" height="76" rx="18" fill="#0F172A" stroke="#1E293B"/>
+    <circle cx="38" cy="38" r="10" fill="#94A3B8"/>
+    <text x="64" y="34" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="18" font-weight="700">Offline visibility</text>
+    <text x="64" y="56" fill="#64748B" font-family="Arial, sans-serif" font-size="14">Last-seen failure mode</text>
+  </g>
+</svg>
