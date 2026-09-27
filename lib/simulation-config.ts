@@ -1,6 +1,6 @@
 export const DEFAULT_SPEED_MULTIPLIER = 2.5;
 export const STREAM_TICK_INTERVAL_MS = 100;
-export const CLIENT_INTERPOLATION_MS = 140;
+export const CLIENT_INTERPOLATION_MS = 200;
 
 export const WAKE_LENGTH = 3;
 export const WAKE_LINE_WIDTH = 0.75;

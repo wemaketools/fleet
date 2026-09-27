@@ -15,7 +15,7 @@ test("simulation uses slower, frequent updates by default", () => {
 
   assert.match(config, /DEFAULT_SPEED_MULTIPLIER\s*=\s*2\.5\b/);
   assert.match(config, /STREAM_TICK_INTERVAL_MS\s*=\s*100\b/);
-  assert.match(config, /CLIENT_INTERPOLATION_MS\s*=\s*140\b/);
+  assert.match(config, /CLIENT_INTERPOLATION_MS\s*=\s*200\b/);
   assert.doesNotMatch(store, /DEFAULT_SPEED_MULTIPLIER/);
   assert.match(simState, /DEFAULT_SPEED_MULTIPLIER/);
   assert.match(broadcaster, /STREAM_TICK_INTERVAL_MS/);
@@ -71,7 +71,7 @@ test("vehicles render as varied top-down truck vectors", () => {
   assert.match(map, /heading: t\.currentLocation\.heading/);
   assert.match(map, /vehicleType: t\.vehicleType/);
   assert.match(map, /vehicleIcon: truckIconId\(t\.vehicleType, t\.status\)/);
-  assert.match(map, /vehicleBearing:\s*t\.status === "in_transit" \? t\.currentLocation\.heading : 0/);
+  assert.match(map, /vehicleBearing:\s*bearings\.get\(t\.id\) \?\?\s*\(t\.status === "in_transit" \? t\.currentLocation\.heading : 0\)/);
   assert.match(map, /function registerTruckImages\(map: maplibregl\.Map\)/);
   assert.match(map, /"container_truck"/);
   assert.match(map, /"flatbed"/);

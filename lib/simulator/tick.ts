@@ -282,6 +282,9 @@ export function snapshot() {
   return {
     simTime: new Date(sim.simTimeMs).toISOString(),
     speedMultiplier: sim.speedMultiplier,
+    // Server wall clock when this snapshot was taken; clients interpolate on
+    // it so network jitter doesn't show up as uneven motion.
+    sampledAt: Date.now(),
     trucks: Array.from(sim.trucks.values()).map((s) => s.truck),
   };
 }
