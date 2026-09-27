@@ -6,6 +6,7 @@ import type { Truck } from "@/lib/types";
 
 interface StreamPayload {
   trucks: Truck[];
+  sampledAt?: number;
 }
 
 export function useFleetStream() {

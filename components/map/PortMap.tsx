@@ -102,12 +102,37 @@ const VEHICLE_LAYER_ORDER = [
   "port-berth-labels",
 ];
 
-interface AnimState {
-  from: Map<string, [number, number]>;
-  to: Map<string, [number, number]>;
-  startedAt: number;
-  wake: Map<string, Array<[number, number]>>;
+interface SampleTruck {
+  pos: [number, number];
+  // Icon rotation this truck should settle on (0 when not driving).
+  bearing: number;
 }
+
+// One server snapshot, stamped with the server's clock so arrival jitter
+// doesn't turn into uneven motion.
+interface Sample {
+  t: number;
+  trucks: Map<string, SampleTruck>;
+}
+
+interface AnimState {
+  samples: Sample[];
+  // Playback clock, in Sample.t units; trails the newest sample by
+  // CLIENT_INTERPOLATION_MS so there is always a sample ahead to move toward.
+  renderT: number | null;
+  lastFrameAt: number;
+  bearings: Map<string, number>;
+}
+
+const MAX_SAMPLES = 40;
+// A playback clock this far off (tab was hidden, server restarted) jumps
+// instead of catching up.
+const CLOCK_RESYNC_MS = 1000;
+// How quickly the playback clock absorbs drift, and how quickly icons turn.
+const CLOCK_CORRECTION_MS = 800;
+const BEARING_SMOOTHING_MS = 160;
+// Follow-cam catch-up time constant.
+const FOLLOW_SMOOTHING_MS = 350;
 
 interface HoverInfo {
   id: string;
@@ -120,6 +145,104 @@ interface HoverInfo {
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
+}
+
+// Step `from` toward `to` along the shorter way round the compass.
+function lerpAngle(from: number, to: number, t: number) {
+  const delta = ((((to - from) % 360) + 540) % 360) - 180;
+  return (from + delta * t + 360) % 360;
+}
+
+function snapshotSample(trucks: Truck[], sampledAt: number): Sample {
+  const byId = new Map<string, SampleTruck>();
+  for (const t of trucks) {
+    byId.set(t.id, {
+      pos: [t.currentLocation.lng, t.currentLocation.lat],
+      bearing: t.status === "in_transit" ? t.currentLocation.heading : 0,
+    });
+  }
+  return { t: sampledAt, trucks: byId };
+}
+
+// Advance the playback clock by real frame time, nudging it toward
+// (newest sample − delay) so it neither runs dry nor drifts behind.
+function advancePlayback(anim: AnimState, frameDt: number) {
+  const newest = anim.samples[anim.samples.length - 1];
+  if (!newest) return;
+  const target = newest.t - CLIENT_INTERPOLATION_MS;
+  if (
+    anim.renderT === null ||
+    Math.abs(target - anim.renderT) > CLOCK_RESYNC_MS
+  ) {
+    anim.renderT = target;
+  } else {
+    const drift = target - anim.renderT;
+    anim.renderT +=
+      frameDt + drift * (1 - Math.exp(-frameDt / CLOCK_CORRECTION_MS));
+  }
+  anim.renderT = Math.min(anim.renderT, newest.t);
+}
+
+// Positions at the playback clock, interpolated between the two snapshots
+// that bracket it. Icon bearings ease toward the heading rather than snapping.
+function samplePositions(
+  anim: AnimState,
+  trucks: Truck[],
+  frameDt: number,
+): Map<string, [number, number]> {
+  const { samples } = anim;
+  const renderT = anim.renderT ?? 0;
+  let i = samples.length - 1;
+  while (i > 0 && samples[i].t > renderT) i--;
+  const a = samples[i];
+  const b = samples[Math.min(i + 1, samples.length - 1)];
+  const span = b && a && b.t > a.t ? b.t - a.t : 0;
+  const k = span > 0 ? Math.max(0, Math.min(1, (renderT - a.t) / span)) : 1;
+  const turn = 1 - Math.exp(-frameDt / BEARING_SMOOTHING_MS);
+
+  const positions = new Map<string, [number, number]>();
+  for (const truck of trucks) {
+    const from = a?.trucks.get(truck.id);
+    const to = b?.trucks.get(truck.id) ?? from;
+    if (!from || !to) {
+      positions.set(truck.id, [
+        truck.currentLocation.lng,
+        truck.currentLocation.lat,
+      ]);
+      continue;
+    }
+    positions.set(truck.id, [
+      lerp(from.pos[0], to.pos[0], k),
+      lerp(from.pos[1], to.pos[1], k),
+    ]);
+    const shown = anim.bearings.get(truck.id);
+    anim.bearings.set(
+      truck.id,
+      shown === undefined ? to.bearing : lerpAngle(shown, to.bearing, turn),
+    );
+  }
+  return positions;
+}
+
+// Recent snapshot positions behind the playback clock, ending at the truck.
+function wakeTrails(
+  anim: AnimState,
+  positions: Map<string, [number, number]>,
+): Map<string, Array<[number, number]>> {
+  const renderT = anim.renderT ?? 0;
+  const past = anim.samples.filter((s) => s.t <= renderT).slice(-(WAKE_LENGTH - 1));
+  const wake = new Map<string, Array<[number, number]>>();
+  for (const [id, pos] of positions) {
+    const coords: Array<[number, number]> = [];
+    for (const s of past) {
+      const p = s.trucks.get(id)?.pos;
+      const last = coords[coords.length - 1];
+      if (p && (!last || last[0] !== p[0] || last[1] !== p[1])) coords.push(p);
+    }
+    coords.push(pos);
+    wake.set(id, coords);
+  }
+  return wake;
 }
 
 function distance(a: Position, b: Position) {
@@ -400,6 +523,7 @@ function registerTruckImages(map: maplibregl.Map) {
 function buildTrucksGeoJson(
   trucks: Truck[],
   positions: Map<string, [number, number]>,
+  bearings: Map<string, number>,
   selectedId: string | null,
   statusFilter: ReadonlySet<Truck["status"]>,
 ): FeatureCollection<Point> {
@@ -421,7 +545,9 @@ function buildTrucksGeoJson(
           vehicleType: t.vehicleType,
           vehicleIcon: truckIconId(t.vehicleType, t.status),
           selectionIcon: truckSelectionIconId(t.vehicleType),
-          vehicleBearing: t.status === "in_transit" ? t.currentLocation.heading : 0,
+          vehicleBearing:
+            bearings.get(t.id) ??
+            (t.status === "in_transit" ? t.currentLocation.heading : 0),
           plate: t.plateNumber,
           driver: t.driver.name,
           selected: t.id === selectedId,
@@ -639,8 +765,6 @@ function HoverCard({
 export default function PortMap() {
   const mapRef = useRef<MapRef | null>(null);
   const trucks = useFleetStore((s) => s.trucks);
-  const prevTrucks = useFleetStore((s) => s.prevTrucks);
-  const lastSnapshotAt = useFleetStore((s) => s.lastSnapshotAt);
   const selectedId = useFleetStore((s) => s.selectedId);
   const selectTruck = useFleetStore((s) => s.selectTruck);
   const followSelected = useFleetStore((s) => s.followSelected);
@@ -654,17 +778,16 @@ export default function PortMap() {
   );
 
   const animRef = useRef<AnimState>({
-    from: new Map(),
-    to: new Map(),
-    startedAt: 0,
-    wake: new Map(),
+    samples: [],
+    renderT: null,
+    lastFrameAt: 0,
+    bearings: new Map(),
   });
   const visibleRef = useRef<Map<string, [number, number]>>(new Map());
   const trucksRef = useRef<Truck[]>([]);
   const selectedIdRef = useRef<string | null>(null);
   const followRef = useRef<boolean>(false);
   const statusFilterRef = useRef<ReadonlySet<Truck["status"]>>(new Set());
-  const lastFollowAtRef = useRef<number>(0);
   const routeCacheRef = useRef({ key: "", line: [] as [number, number][] });
   const [mapReady, setMapReady] = useState(false);
   const [hover, setHover] = useState<HoverInfo | null>(null);
@@ -676,73 +799,27 @@ export default function PortMap() {
     statusFilterRef.current = statusFilter;
   }, [trucks, selectedId, followSelected, statusFilter]);
 
-  // On new snapshot: snapshot current visible -> from, set new targets -> to,
-  // push to wake history, reset animation start.
+  // Buffer every snapshot on the server's clock. Subscribing to the store
+  // directly (not via render) keeps snapshots React batches together.
   useEffect(() => {
-    if (trucks.length === 0) return;
-    const anim = animRef.current;
-
-    const newFrom = new Map<string, [number, number]>();
-    const newTo = new Map<string, [number, number]>();
-    for (const t of trucks) {
-      const current = visibleRef.current.get(t.id);
-      const prev = prevTrucks.find((p) => p.id === t.id);
-      const fromPos: [number, number] = current
-        ? current
-        : prev
-          ? [prev.currentLocation.lng, prev.currentLocation.lat]
-          : [t.currentLocation.lng, t.currentLocation.lat];
-      newFrom.set(t.id, fromPos);
-      newTo.set(t.id, [t.currentLocation.lng, t.currentLocation.lat]);
-
-      // Append to wake (only if moved meaningfully and not offline)
-      const history = anim.wake.get(t.id) ?? [];
-      const last = history[history.length - 1];
-      const target: [number, number] = [
-        t.currentLocation.lng,
-        t.currentLocation.lat,
-      ];
-      const moved =
-        !last ||
-        Math.hypot(last[0] - target[0], last[1] - target[1]) > 1e-6;
-      if (t.status !== "offline" && moved) {
-        history.push(target);
-        while (history.length > WAKE_LENGTH) history.shift();
-        anim.wake.set(t.id, history);
-      } else if (t.status === "offline") {
-        anim.wake.set(t.id, []);
+    const push = (s: ReturnType<typeof useFleetStore.getState>) => {
+      if (s.trucks.length === 0) return;
+      const anim = animRef.current;
+      const sample = snapshotSample(s.trucks, s.sampledAt);
+      const newest = anim.samples[anim.samples.length - 1];
+      if (newest && sample.t <= newest.t) {
+        // Clock went backwards (server restart): start over.
+        anim.samples = [];
+        anim.renderT = null;
       }
-    }
-    anim.from = newFrom;
-    anim.to = newTo;
-    anim.startedAt = performance.now();
-
-    // Update map sources immediately so markers are visible even before
-    // the animation loop's next frame.
-    const map = mapRef.current?.getMap();
-    const trucksSrc = map?.getSource("trucks") as
-      | maplibregl.GeoJSONSource
-      | undefined;
-    if (trucksSrc) {
-      trucksSrc.setData(
-        buildTrucksGeoJson(
-          trucks,
-          newTo,
-          selectedId,
-          statusFilterRef.current,
-        ) as unknown as GeoJSON.GeoJSON,
-      );
-    }
-
-    const wakeSrc = map?.getSource("wake") as
-      | maplibregl.GeoJSONSource
-      | undefined;
-    if (wakeSrc)
-      wakeSrc.setData(
-        buildWakeGeoJson(trucks, anim.wake) as unknown as GeoJSON.GeoJSON,
-      );
-    if (map) bringVehicleLayersToFront(map);
-  }, [trucks, prevTrucks, lastSnapshotAt, selectedId]);
+      anim.samples.push(sample);
+      if (anim.samples.length > MAX_SAMPLES) anim.samples.shift();
+    };
+    push(useFleetStore.getState());
+    return useFleetStore.subscribe((s, prev) => {
+      if (s.trucks !== prev.trucks) push(s);
+    });
+  }, []);
 
   // RAF loop: interpolate, update truck + pulse sources, animate pulse radius.
   useEffect(() => {
@@ -755,27 +832,11 @@ export default function PortMap() {
     const step = () => {
       const anim = animRef.current;
       const now = performance.now();
-      const t = Math.max(
-        0,
-        Math.min(1, (now - anim.startedAt) / CLIENT_INTERPOLATION_MS),
-      );
+      const frameDt = anim.lastFrameAt ? now - anim.lastFrameAt : 0;
+      anim.lastFrameAt = now;
 
-      const positions = new Map<string, [number, number]>();
-      for (const truck of trucksRef.current) {
-        const from = anim.from.get(truck.id);
-        const to = anim.to.get(truck.id);
-        if (!from || !to) {
-          positions.set(truck.id, [
-            truck.currentLocation.lng,
-            truck.currentLocation.lat,
-          ]);
-        } else {
-          positions.set(truck.id, [
-            lerp(from[0], to[0], t),
-            lerp(from[1], to[1], t),
-          ]);
-        }
-      }
+      advancePlayback(anim, frameDt);
+      const positions = samplePositions(anim, trucksRef.current, frameDt);
       visibleRef.current = positions;
 
       const trucksSrc = map.getSource("trucks") as
@@ -786,13 +847,25 @@ export default function PortMap() {
           buildTrucksGeoJson(
             trucksRef.current,
             positions,
+            anim.bearings,
             selectedIdRef.current,
             statusFilterRef.current,
           ) as unknown as GeoJSON.GeoJSON,
         );
       }
-      bringVehicleLayersToFront(map);
 
+      const wakeSrc = map.getSource("wake") as
+        | maplibregl.GeoJSONSource
+        | undefined;
+      if (wakeSrc) {
+        wakeSrc.setData(
+          buildWakeGeoJson(
+            trucksRef.current,
+            wakeTrails(anim, positions),
+          ) as unknown as GeoJSON.GeoJSON,
+        );
+      }
+      bringVehicleLayersToFront(map);
       const selectedTruck =
         trucksRef.current.find((tr) => tr.id === selectedIdRef.current) ??
         null;
@@ -853,20 +926,16 @@ export default function PortMap() {
         );
       }
 
-      // Follow selected truck gently so the operator can keep spatial context.
-      if (
-        followRef.current &&
-        selectedTruck &&
-        now - lastFollowAtRef.current > 3000
-      ) {
+      // Follow the selected truck continuously, easing the camera toward it
+      // each frame. Hands off while the user or another animation moves the map.
+      if (followRef.current && selectedTruck && !map.isMoving()) {
         const pos = positions.get(selectedTruck.id);
         if (pos) {
-          map.easeTo({
-            center: pos,
-            duration: 1200,
-            essential: true,
+          const center = map.getCenter();
+          const k = 1 - Math.exp(-frameDt / FOLLOW_SMOOTHING_MS);
+          map.jumpTo({
+            center: [lerp(center.lng, pos[0], k), lerp(center.lat, pos[1], k)],
           });
-          lastFollowAtRef.current = now;
         }
       }
 

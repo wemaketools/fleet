@@ -9,8 +9,8 @@ interface FleetStore {
   trucks: Truck[];
   // Server-authoritative latest snapshot wall time (when the snapshot arrived)
   lastSnapshotAt: number;
-  // Previous trucks (for client-side interpolation between snapshots)
-  prevTrucks: Truck[];
+  // Server clock of the latest snapshot, for client-side interpolation
+  sampledAt: number;
 
   selectedId: string | null;
   panelState: PanelState;
@@ -22,6 +22,7 @@ interface FleetStore {
 
   applySnapshot: (s: {
     trucks: Truck[];
+    sampledAt?: number;
   }) => void;
 
   setTrucks: (trucks: Truck[]) => void;
@@ -36,8 +37,8 @@ interface FleetStore {
 
 export const useFleetStore = create<FleetStore>((set, get) => ({
   trucks: [],
-  prevTrucks: [],
   lastSnapshotAt: 0,
+  sampledAt: 0,
   selectedId: null,
   panelState: "list",
   searchQuery: "",
@@ -47,13 +48,16 @@ export const useFleetStore = create<FleetStore>((set, get) => ({
   hasEverConnected: false,
 
   applySnapshot: (s) =>
-    set((state) => ({
-      prevTrucks: state.trucks,
-      trucks: s.trucks,
-      lastSnapshotAt: Date.now(),
-    })),
+    set(() => {
+      const now = Date.now();
+      return {
+        trucks: s.trucks,
+        lastSnapshotAt: now,
+        sampledAt: s.sampledAt ?? now,
+      };
+    }),
 
-  setTrucks: (trucks) => set({ trucks, prevTrucks: trucks }),
+  setTrucks: (trucks) => set({ trucks }),
   selectTruck: (id) =>
     set({
       selectedId: id,
