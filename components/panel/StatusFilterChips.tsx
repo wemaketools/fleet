@@ -1,17 +1,21 @@
 "use client";
 
 import { useFleetStore } from "@/lib/store/useFleetStore";
+import { useStatusCounts } from "@/lib/hooks/useStatusCounts";
 import {
-  STATUS_COLORS,
+  STATUS_COLOR_VARS,
   STATUS_LABELS,
-  type TruckStatus,
+  STATUS_ON_COLOR,
+  STATUS_ORDER,
 } from "@/lib/types";
+import StatusIcon from "@/components/ui/StatusIcon";
 import { cn } from "@/lib/utils";
 
-const ORDER: TruckStatus[] = ["in_transit", "loading", "unloading", "idle", "offline"];
+const chip =
+  "flex items-center gap-1.5 shrink-0 h-8 pl-2.5 pr-3 rounded-full text-[13px] font-medium transition-colors whitespace-nowrap";
 
 export default function StatusFilterChips() {
-  const trucks = useFleetStore((s) => s.trucks);
+  const counts = useStatusCounts();
   const statusFilter = useFleetStore((s) => s.statusFilter);
   const toggle = useFleetStore((s) => s.toggleStatusFilter);
   const clear = useFleetStore((s) => s.clearStatusFilter);
@@ -19,37 +23,52 @@ export default function StatusFilterChips() {
   const allActive = statusFilter.size === 0;
 
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div
+      role="group"
+      aria-label="Filter by status"
+      className="no-scrollbar -mx-4 px-4 flex gap-1.5 overflow-x-auto"
+    >
       <button
+        type="button"
         onClick={clear}
+        aria-pressed={allActive}
         className={cn(
-          "px-2 h-6 rounded-full text-[11px] uppercase tracking-wider transition-colors border",
-          allActive
-            ? "bg-[#CE1126]/20 border-[#CE1126]/60 text-slate-100"
-            : "bg-transparent border-white/10 text-slate-400 hover:text-slate-200",
+          chip,
+          "pl-3",
+          allActive ? "bg-ink text-white" : "bg-tint text-ink-2 hover:bg-tint-2",
         )}
       >
         All
       </button>
-      {ORDER.map((status) => {
+      {STATUS_ORDER.map((status) => {
         const active = statusFilter.has(status);
-        const count = trucks.filter((t) => t.status === status).length;
         return (
           <button
             key={status}
+            type="button"
             onClick={() => toggle(status)}
-            className={cn(
-              "flex items-center gap-1.5 px-2 h-6 rounded-full text-[11px] uppercase tracking-wider transition-colors border",
+            aria-pressed={active}
+            className={cn(chip, !active && "bg-tint text-ink-2 hover:bg-tint-2")}
+            style={
               active
-                ? "bg-white/10 border-white/30 text-slate-100"
-                : "bg-transparent border-white/10 text-slate-400 hover:text-slate-200",
-            )}
+                ? {
+                    background: STATUS_COLOR_VARS[status],
+                    color: STATUS_ON_COLOR[status],
+                  }
+                : undefined
+            }
           >
-            <span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ background: STATUS_COLORS[status] }}
+            <StatusIcon
+              status={status}
+              className="w-3.5 h-3.5"
+              style={{
+                color: active ? STATUS_ON_COLOR[status] : STATUS_COLOR_VARS[status],
+              }}
             />
-            {STATUS_LABELS[status]} ({count})
+            {STATUS_LABELS[status]}
+            <span className={cn("text-[12px]", active ? "opacity-80" : "text-ink-3")}>
+              {counts[status]}
+            </span>
           </button>
         );
       })}

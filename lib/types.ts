@@ -15,6 +15,8 @@ export interface Driver {
   name: string;
   phone: string;
   photoUrl?: string;
+  // Photographer credit for stock portraits (Unsplash requires attribution).
+  photoCredit?: { name: string; url: string };
 }
 
 export interface TruckLocation {
@@ -63,6 +65,8 @@ export interface Truck {
   lastStopped: StopRecord;
   lastUnloaded: UnloadRecord;
   currentRoute?: TruckRoute;
+  // When the tracker last reported, set when a truck drops offline.
+  lastSeenAt?: string;
 }
 
 export type PortNodeKind =
@@ -97,21 +101,50 @@ export interface PortGraph {
   edges: PortEdge[];
 }
 
+// Hex values mirror the --status-* tokens in app/globals.css. MapLibre paint
+// and the vehicle SVG sprites cannot read CSS variables, so these are the
+// source for the map; DOM code should prefer STATUS_COLOR_VARS.
 export const STATUS_COLORS: Record<TruckStatus, string> = {
-  in_transit: "#22C55E",
-  loading: "#F59E0B",
-  unloading: "#3B82F6",
-  idle: "#EF4444",
-  offline: "#D1D5DB",
+  in_transit: "#2B6FE0",
+  loading: "#FFA62B",
+  unloading: "#0C8F87",
+  idle: "#8C9CAD",
+  offline: "#E5484D",
 };
 
+// Readable text colour on top of each status fill (container tiles, chips).
+export const STATUS_ON_COLOR: Record<TruckStatus, string> = {
+  in_transit: "#FFFFFF",
+  loading: "#16324F",
+  unloading: "#FFFFFF",
+  idle: "#16324F",
+  offline: "#FFFFFF",
+};
+
+export const STATUS_COLOR_VARS: Record<TruckStatus, string> = {
+  in_transit: "var(--status-transit)",
+  loading: "var(--status-loading)",
+  unloading: "var(--status-unloading)",
+  idle: "var(--status-idle)",
+  offline: "var(--status-offline)",
+};
+
+// Plain words an operator would say out loud.
 export const STATUS_LABELS: Record<TruckStatus, string> = {
-  in_transit: "In Transit",
+  in_transit: "Moving",
   loading: "Loading",
   unloading: "Unloading",
-  idle: "Idle",
-  offline: "Offline",
+  idle: "Parked",
+  offline: "No signal",
 };
+
+export const STATUS_ORDER: TruckStatus[] = [
+  "in_transit",
+  "loading",
+  "unloading",
+  "idle",
+  "offline",
+];
 
 export const STATUS_PRIORITY: Record<TruckStatus, number> = {
   in_transit: 0,
@@ -119,4 +152,11 @@ export const STATUS_PRIORITY: Record<TruckStatus, number> = {
   unloading: 2,
   idle: 3,
   offline: 4,
+};
+
+export const VEHICLE_TYPE_LABELS: Record<VehicleType, string> = {
+  container_truck: "Container truck",
+  flatbed: "Flatbed",
+  tanker: "Tanker",
+  terminal_tractor: "Terminal tractor",
 };

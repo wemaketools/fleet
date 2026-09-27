@@ -1,4 +1,4 @@
-import type { PortGraph, PortNode, PortEdge } from "@/lib/types";
+import type { PortGraph, PortNode, PortEdge, TruckRoute } from "@/lib/types";
 
 export class PortGraphIndex {
   readonly nodesById: Map<string, PortNode>;
@@ -79,6 +79,69 @@ export class PortGraphIndex {
     }
     return null;
   }
+}
+
+// Chains the graph's edge polylines along a route's node sequence into one
+// [lng, lat] line. Missing edges fall back to a straight hop between nodes.
+export function routeToLineString(
+  route: Pick<TruckRoute, "originNodeId" | "waypointNodeIds">,
+  graph: PortGraphIndex,
+): [number, number][] {
+  const nodeIds = [route.originNodeId, ...route.waypointNodeIds];
+  const coords: [number, number][] = [];
+  const push = (p: [number, number]) => {
+    const last = coords[coords.length - 1];
+    if (!last || last[0] !== p[0] || last[1] !== p[1]) coords.push(p);
+  };
+
+  for (let i = 1; i < nodeIds.length; i++) {
+    const edge = graph.edgeBetween(nodeIds[i - 1], nodeIds[i]);
+    if (edge) {
+      edge.polyline.forEach(push);
+      continue;
+    }
+    const from = graph.node(nodeIds[i - 1]);
+    const to = graph.node(nodeIds[i]);
+    if (from) push([from.lng, from.lat]);
+    if (to) push([to.lng, to.lat]);
+  }
+  return coords;
+}
+
+// Splits a line at the point on it closest to `at` (planar; fine at port
+// scale). Both halves include the split point so they join seamlessly.
+export function splitLineAt(
+  line: [number, number][],
+  at: [number, number],
+): { travelled: [number, number][]; remaining: [number, number][] } {
+  if (line.length < 2) return { travelled: [], remaining: line };
+
+  let bestIndex = 0;
+  let bestPoint: [number, number] = line[0];
+  let bestDist = Infinity;
+  for (let i = 1; i < line.length; i++) {
+    const [ax, ay] = line[i - 1];
+    const [bx, by] = line[i];
+    const dx = bx - ax;
+    const dy = by - ay;
+    const lenSq = dx * dx + dy * dy;
+    const t =
+      lenSq === 0
+        ? 0
+        : Math.max(0, Math.min(1, ((at[0] - ax) * dx + (at[1] - ay) * dy) / lenSq));
+    const p: [number, number] = [ax + dx * t, ay + dy * t];
+    const d = (p[0] - at[0]) ** 2 + (p[1] - at[1]) ** 2;
+    if (d < bestDist) {
+      bestDist = d;
+      bestIndex = i;
+      bestPoint = p;
+    }
+  }
+
+  return {
+    travelled: [...line.slice(0, bestIndex), bestPoint],
+    remaining: [bestPoint, ...line.slice(bestIndex)],
+  };
 }
 
 // Linear interpolation along a polyline. t in [0,1] -> [lng,lat]

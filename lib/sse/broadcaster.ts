@@ -11,6 +11,10 @@ declare global {
         subscribers: Set<Subscriber>;
         tickHandle?: NodeJS.Timeout;
         lastTickMs: number;
+        // Latest simulator entry points; refreshed on every module load so a
+        // long-lived interval never keeps running hot-reloaded-away code.
+        tick: typeof tickSim;
+        snapshot: typeof snapshot;
       }
     | undefined;
 }
@@ -23,8 +27,12 @@ function ensureBroadcaster() {
     globalThis.__gphaBroadcaster = {
       subscribers: new Set(),
       lastTickMs: Date.now(),
+      tick: tickSim,
+      snapshot,
     };
   }
+  globalThis.__gphaBroadcaster.tick = tickSim;
+  globalThis.__gphaBroadcaster.snapshot = snapshot;
   return globalThis.__gphaBroadcaster;
 }
 
@@ -58,9 +66,9 @@ function startTickLoopIfNeeded() {
     const now = Date.now();
     const dt = now - b.lastTickMs;
     b.lastTickMs = now;
-    tickSim(dt);
+    b.tick(dt);
     if (b.subscribers.size > 0) {
-      broadcast("update", snapshot());
+      broadcast("update", b.snapshot());
     }
     // Periodic heartbeat to keep connection alive
     if (now % HEARTBEAT_INTERVAL_MS < TICK_INTERVAL_MS) {
@@ -84,7 +92,7 @@ export function subscribe(
   b.subscribers.add(sub);
   startTickLoopIfNeeded();
   // Send initial snapshot
-  controller.enqueue(sseFormat("snapshot", snapshot()));
+  controller.enqueue(sseFormat("snapshot", b.snapshot()));
   return sub;
 }
 

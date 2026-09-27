@@ -7,7 +7,14 @@ import {
   type SegmentOccupant,
 } from "./collision";
 import { generateMission } from "./missionEngine";
-import { dwellRangeFor, getSim, pointAlong, speedFor } from "./state";
+import {
+  dwellRangeFor,
+  estimateMissionMs,
+  getSim,
+  pointAlong,
+  routeSummary,
+  speedFor,
+} from "./state";
 
 const OFFLINE_FLIP_PROB_PER_TICK = 0.002;
 const ONLINE_FLIP_PROB_PER_TICK = 0.05;
@@ -37,6 +44,9 @@ export function tickSim(wallDtMs: number): void {
   const simDtMs = wallDtMs * sim.speedMultiplier;
   sim.simTimeMs += simDtMs;
   sim.lastTickWallMs = Date.now();
+  // Timestamps the dashboard displays are wall-clock, not simulation time,
+  // so "x min ago" and ETAs line up with the top-bar clock.
+  const nowIso = new Date(sim.lastTickWallMs).toISOString();
 
   for (const ts of sim.trucks.values()) {
     const t = ts.truck;
@@ -45,12 +55,14 @@ export function tickSim(wallDtMs: number): void {
     if (t.status !== "offline" && Math.random() < OFFLINE_FLIP_PROB_PER_TICK) {
       t.status = "offline";
       t.currentLocation.speedKmh = 0;
+      t.lastSeenAt = nowIso;
       continue;
     }
     if (t.status === "offline") {
       if (Math.random() < ONLINE_FLIP_PROB_PER_TICK) {
         // Come back online idle at current spot
         t.status = "idle";
+        delete t.lastSeenAt;
         const m = ts.mission;
         if (!m || m.path.length === 0) {
           // bootstrap a dwell at current pseudo-node
@@ -75,19 +87,13 @@ export function tickSim(wallDtMs: number): void {
           if (newMission) {
             ts.mission = newMission;
             t.status = "in_transit";
-            // populate currentRoute summary
-            const destId = newMission.path[newMission.path.length - 1];
-            const destNode = sim.graph.node(destId);
-            t.currentRoute = {
-              originNodeId: here,
-              destinationNodeId: destId,
-              waypointNodeIds: newMission.path.slice(1),
-              etaTimestamp: new Date(
-                sim.simTimeMs + estimateMissionMs(newMission, sim.graph),
-              ).toISOString(),
-              progressPercent: 0,
-            };
-            if (destNode) t.currentLocation.heading = 0;
+            t.currentRoute = routeSummary(
+              sim.graph,
+              newMission.path,
+              sim.speedMultiplier,
+              sim.lastTickWallMs,
+            );
+            t.currentLocation.heading = 0;
           } else {
             t.status = "idle";
           }
@@ -139,7 +145,8 @@ export function tickSim(wallDtMs: number): void {
           t.currentRoute.originNodeId = fromId;
           t.currentRoute.waypointNodeIds = reroute.slice(1);
           t.currentRoute.etaTimestamp = new Date(
-            sim.simTimeMs + estimateMissionMs(mission, sim.graph),
+            sim.lastTickWallMs +
+              estimateMissionMs(mission.path, sim.graph) / sim.speedMultiplier,
           ).toISOString();
         }
       } else {
@@ -182,7 +189,7 @@ export function tickSim(wallDtMs: number): void {
           locationName: toNode.name,
           lat: toNode.lat,
           lng: toNode.lng,
-          timestamp: new Date(sim.simTimeMs).toISOString(),
+          timestamp: nowIso,
         };
       }
       mission.edgeProgressMeters = 0;
@@ -200,7 +207,7 @@ export function tickSim(wallDtMs: number): void {
           t.lastUnloaded = {
             locationName: toNode.name,
             cargoDescription: t.currentCargo.description,
-            timestamp: new Date(sim.simTimeMs).toISOString(),
+            timestamp: nowIso,
           };
         }
         delete t.currentRoute;
@@ -232,21 +239,6 @@ export function tickSim(wallDtMs: number): void {
       t.currentRoute.progressPercent = Math.min(99, Math.round(overall * 100));
     }
   }
-}
-
-function estimateMissionMs(
-  mission: { path: string[] },
-  graph: ReturnType<typeof getSim>["graph"],
-): number {
-  let totalMs = 0;
-  for (let i = 1; i < mission.path.length; i++) {
-    const edge = graph.edgeBetween(mission.path[i - 1], mission.path[i]);
-    if (!edge) continue;
-    const speedKmh = speedFor(edge);
-    const seconds = edge.lengthMeters / ((speedKmh * 1000) / 3600);
-    totalMs += seconds * 1000;
-  }
-  return totalMs;
 }
 
 function currentSegmentOccupants(

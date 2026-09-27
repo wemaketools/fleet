@@ -3,7 +3,12 @@
     "id": "GPHA-T-0142",
     "plateNumber": "GR 1234-22",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kwame Asante", "phone": "+233 24 555 0142" },
+    "driver": {
+      "name": "Kwame Asante",
+      "phone": "+233 24 555 0142",
+      "photoUrl": "https://images.unsplash.com/photo-1672760580588-17fb288ec41b?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MTV8fGdoYW5haWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjY1fDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Gylain Omer", "url": "https://unsplash.com/@gullin_omer?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6280, "lng": 0.0030, "heading": 180, "speedKmh": 42 },
     "currentCargo": {
@@ -26,7 +31,12 @@
     "id": "GPHA-T-0091",
     "plateNumber": "GR 7842-21",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kofi Mensah", "phone": "+233 27 555 0091" },
+    "driver": {
+      "name": "Kofi Mensah",
+      "phone": "+233 27 555 0091",
+      "photoUrl": "https://images.unsplash.com/photo-1583234736509-8efd1a126e0d?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MjJ8fGdoYW5hJTIwbWFufGVufDF8fHx8MTc5MDU0MDY2OXww&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Michael Kumordzi Tetteh", "url": "https://unsplash.com/@kumordzi?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "loading",
     "currentLocation": { "lat": 5.6310, "lng": 0.0070, "heading": 90, "speedKmh": 0 },
     "currentCargo": {
@@ -42,7 +52,12 @@
     "id": "GPHA-T-0337",
     "plateNumber": "GR 4421-23",
     "vehicleType": "flatbed",
-    "driver": { "name": "Yaw Owusu", "phone": "+233 20 555 0337" },
+    "driver": {
+      "name": "Yaw Owusu",
+      "phone": "+233 20 555 0337",
+      "photoUrl": "https://images.unsplash.com/photo-1735423491073-650296b69330?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8M3x8YWZyaWNhbiUyMHRydWNrJTIwZHJpdmVyfGVufDF8fHx8MTc5MDU0MDY2OHww&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Collins Lesulie", "url": "https://unsplash.com/@clesulie?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6440, "lng": -0.0080, "heading": 315, "speedKmh": 58 },
     "currentCargo": {
@@ -64,7 +79,12 @@
     "id": "GPHA-T-0218",
     "plateNumber": "GR 9981-24",
     "vehicleType": "terminal_tractor",
-    "driver": { "name": "Kwabena Boateng", "phone": "+233 24 555 0218" },
+    "driver": {
+      "name": "Kwabena Boateng",
+      "phone": "+233 24 555 0218",
+      "photoUrl": "https://images.unsplash.com/photo-1532437698276-c2ac365e7147?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NXx8YWZyaWNhbiUyMG1hbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc5MDU0MDY2Nnww&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Clive Thibela", "url": "https://unsplash.com/@_clvrt?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "unloading",
     "currentLocation": { "lat": 5.6250, "lng": 0.0080, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -80,7 +100,12 @@
     "id": "GPHA-T-0405",
     "plateNumber": "GR 2233-22",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kwaku Agyeman", "phone": "+233 26 555 0405" },
+    "driver": {
+      "name": "Kwaku Agyeman",
+      "phone": "+233 26 555 0405",
+      "photoUrl": "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MXx8YWZyaWNhbiUyMG1hbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc5MDU0MDY2Nnww&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Veroll Sterling", "url": "https://unsplash.com/@veroll?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "idle",
     "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
     "currentCargo": { "type": "empty", "description": "Empty container, awaiting next dispatch", "weightTonnes": 0 },
@@ -91,7 +116,12 @@
     "id": "GPHA-T-0512",
     "plateNumber": "GR 6754-23",
     "vehicleType": "tanker",
-    "driver": { "name": "Kwasi Adjei", "phone": "+233 24 555 0512" },
+    "driver": {
+      "name": "Kwasi Adjei",
+      "phone": "+233 24 555 0512",
+      "photoUrl": "https://images.unsplash.com/photo-1723221906960-1c5a5febc9c3?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MjF8fGFmcmljYW4lMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2NjZ8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Blessing Olarewaju", "url": "https://unsplash.com/@olarewajub?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "loading",
     "currentLocation": { "lat": 5.6320, "lng": 0.0000, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -106,7 +136,12 @@
     "id": "GPHA-T-0078",
     "plateNumber": "GR 1144-21",
     "vehicleType": "container_truck",
-    "driver": { "name": "Ekow Darko", "phone": "+233 27 555 0078" },
+    "driver": {
+      "name": "Ekow Darko",
+      "phone": "+233 27 555 0078",
+      "photoUrl": "https://images.unsplash.com/photo-1786529745758-545838b1f1de?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MTF8fGdoYW5haWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjY1fDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Lisa Marie Theck", "url": "https://unsplash.com/@lisa_marie_theck?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6325, "lng": 0.0085, "heading": 220, "speedKmh": 18 },
     "currentCargo": {
@@ -129,7 +164,12 @@
     "id": "GPHA-T-0623",
     "plateNumber": "GR 8865-22",
     "vehicleType": "flatbed",
-    "driver": { "name": "Abena Amoah", "phone": "+233 24 555 0623" },
+    "driver": {
+      "name": "Abena Amoah",
+      "phone": "+233 24 555 0623",
+      "photoUrl": "https://images.unsplash.com/photo-1681284969711-ba6d84f3054c?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8Mjl8fGdoYW5haWFuJTIwd29tYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2NzJ8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Fatima Yusuf", "url": "https://unsplash.com/@fatima_yusuf?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "idle",
     "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
     "currentCargo": { "type": "empty", "description": "Awaiting bulk dispatch", "weightTonnes": 0 },
@@ -140,7 +180,12 @@
     "id": "GPHA-T-0189",
     "plateNumber": "GR 3322-23",
     "vehicleType": "container_truck",
-    "driver": { "name": "Akwasi Appiah", "phone": "+233 26 555 0189" },
+    "driver": {
+      "name": "Akwasi Appiah",
+      "phone": "+233 26 555 0189",
+      "photoUrl": "https://images.unsplash.com/photo-1675062022606-6352f2a972da?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MjZ8fGFmcmljYW4lMjB0cnVjayUyMGRyaXZlcnxlbnwxfHx8fDE3OTA1NDA2Njh8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "QUITSIN IMAGES", "url": "https://unsplash.com/@kwabenaquitsin?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "offline",
     "currentLocation": { "lat": 5.6310, "lng": 0.0130, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -156,7 +201,12 @@
     "id": "GPHA-T-0271",
     "plateNumber": "GR 5566-24",
     "vehicleType": "terminal_tractor",
-    "driver": { "name": "Yaw Tetteh", "phone": "+233 20 555 0271" },
+    "driver": {
+      "name": "Yaw Tetteh",
+      "phone": "+233 20 555 0271",
+      "photoUrl": "https://images.unsplash.com/photo-1608774840391-b7739ef873ca?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MTd8fGFmcmljYW4lMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2NjZ8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Divine Effiong", "url": "https://unsplash.com/@iamdivineeffiong?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6280, "lng": 0.0130, "heading": 0, "speedKmh": 22 },
     "currentCargo": { "type": "empty", "description": "Repositioning, empty chassis", "weightTonnes": 0 },
@@ -174,7 +224,12 @@
     "id": "GPHA-T-0454",
     "plateNumber": "GR 7711-23",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kofi Quaye", "phone": "+233 24 555 0454" },
+    "driver": {
+      "name": "Kofi Quaye",
+      "phone": "+233 24 555 0454",
+      "photoUrl": "https://images.unsplash.com/flagged/photo-1555497742-77cf45746c7f?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MTB8fGdoYW5haWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjY1fDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "ARNO PARTISSIMO", "url": "https://unsplash.com/@partissimo?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "unloading",
     "currentLocation": { "lat": 5.6250, "lng": 0.0130, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -190,7 +245,12 @@
     "id": "GPHA-T-0167",
     "plateNumber": "GR 9988-21",
     "vehicleType": "flatbed",
-    "driver": { "name": "Kwame Acheampong", "phone": "+233 27 555 0167" },
+    "driver": {
+      "name": "Kwame Acheampong",
+      "phone": "+233 27 555 0167",
+      "photoUrl": "https://images.unsplash.com/photo-1614023342667-6f060e9d1e04?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NDJ8fGFmcmljYW4lMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2Njd8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Olawale Munna", "url": "https://unsplash.com/@shattathecreator?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6395, "lng": 0.0140, "heading": 45, "speedKmh": 51 },
     "currentCargo": {
@@ -212,7 +272,12 @@
     "id": "GPHA-T-0589",
     "plateNumber": "GR 2244-24",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kwaku Frimpong", "phone": "+233 26 555 0589" },
+    "driver": {
+      "name": "Kwaku Frimpong",
+      "phone": "+233 26 555 0589",
+      "photoUrl": "https://images.unsplash.com/photo-1588120636681-522f2b1d2824?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NTF8fG5pZ2VyaWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjcxfDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Moses Adeyemi", "url": "https://unsplash.com/@timileyin?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "idle",
     "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
     "currentCargo": { "type": "empty", "description": "Empty container, awaiting next assignment", "weightTonnes": 0 },
@@ -223,7 +288,12 @@
     "id": "GPHA-T-0302",
     "plateNumber": "GR 6677-22",
     "vehicleType": "terminal_tractor",
-    "driver": { "name": "Kwabena Osei", "phone": "+233 24 555 0302" },
+    "driver": {
+      "name": "Kwabena Osei",
+      "phone": "+233 24 555 0302",
+      "photoUrl": "https://images.unsplash.com/photo-1659093728055-45f8275166d9?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NHx8YWZyaWNhbiUyMG1hbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc5MDU0MDY2Nnww&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "150 Billi", "url": "https://unsplash.com/@150billi?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6330, "lng": 0.0050, "heading": 270, "speedKmh": 16 },
     "currentCargo": {
@@ -246,7 +316,12 @@
     "id": "GPHA-T-0476",
     "plateNumber": "GR 8833-23",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kofi Ofori", "phone": "+233 27 555 0476" },
+    "driver": {
+      "name": "Kofi Ofori",
+      "phone": "+233 27 555 0476",
+      "photoUrl": "https://images.unsplash.com/photo-1527465162445-a65a97288ce0?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MTJ8fGdoYW5haWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjY1fDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Nel Ranoko", "url": "https://unsplash.com/@nel_ranoko?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "unloading",
     "currentLocation": { "lat": 5.6310, "lng": 0.0010, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -262,7 +337,12 @@
     "id": "GPHA-T-0631",
     "plateNumber": "GR 4477-24",
     "vehicleType": "tanker",
-    "driver": { "name": "Ekow Kwarteng", "phone": "+233 24 555 0631" },
+    "driver": {
+      "name": "Ekow Kwarteng",
+      "phone": "+233 24 555 0631",
+      "photoUrl": "https://images.unsplash.com/photo-1647316897340-6b6de5597c0f?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NTZ8fGFmcmljYW4lMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2Njd8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Joseph Sintum", "url": "https://unsplash.com/@josephsintum?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6360, "lng": 0.0000, "heading": 360, "speedKmh": 14 },
     "currentCargo": {
@@ -284,7 +364,12 @@
     "id": "GPHA-T-0205",
     "plateNumber": "GR 1199-22",
     "vehicleType": "flatbed",
-    "driver": { "name": "Yaw Yeboah", "phone": "+233 26 555 0205" },
+    "driver": {
+      "name": "Yaw Yeboah",
+      "phone": "+233 26 555 0205",
+      "photoUrl": "https://images.unsplash.com/photo-1771584969936-571ef1c3f130?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NTJ8fGJsYWNrJTIwbWFuJTIwaGVhZHNob3R8ZW58MXx8fHwxNzkwNTQwNjY4fDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Ian Pette", "url": "https://unsplash.com/@quantas?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "loading",
     "currentLocation": { "lat": 5.6250, "lng": -0.0020, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -299,7 +384,12 @@
     "id": "GPHA-T-0388",
     "plateNumber": "GR 5599-21",
     "vehicleType": "container_truck",
-    "driver": { "name": "Akwasi Sarpong", "phone": "+233 27 555 0388" },
+    "driver": {
+      "name": "Akwasi Sarpong",
+      "phone": "+233 27 555 0388",
+      "photoUrl": "https://images.unsplash.com/photo-1512372923090-7b14fb496d44?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MjR8fGFmcmljYW4lMjB0cnVjayUyMGRyaXZlcnxlbnwxfHx8fDE3OTA1NDA2Njh8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Maatla Seetelo", "url": "https://unsplash.com/@sainticalone?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "idle",
     "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
     "currentCargo": { "type": "empty", "description": "Empty container, end-of-shift parking", "weightTonnes": 0 },
@@ -310,7 +400,12 @@
     "id": "GPHA-T-0517",
     "plateNumber": "GR 7733-23",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kwame Antwi", "phone": "+233 24 555 0517" },
+    "driver": {
+      "name": "Kwame Antwi",
+      "phone": "+233 24 555 0517",
+      "photoUrl": "https://images.unsplash.com/photo-1723221907187-3e88c1d74b99?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MTR8fG5pZ2VyaWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjcxfDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Blessing Olarewaju", "url": "https://unsplash.com/@olarewajub?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6360, "lng": 0.0095, "heading": 200, "speedKmh": 19 },
     "currentCargo": {
@@ -333,7 +428,12 @@
     "id": "GPHA-T-0264",
     "plateNumber": "GR 9911-24",
     "vehicleType": "terminal_tractor",
-    "driver": { "name": "Kofi Bediako", "phone": "+233 26 555 0264" },
+    "driver": {
+      "name": "Kofi Bediako",
+      "phone": "+233 26 555 0264",
+      "photoUrl": "https://images.unsplash.com/photo-1634949675408-dc4b5c792ae8?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8OXx8Z2hhbmFpYW4lMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2NjV8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Abiodun Odu", "url": "https://unsplash.com/@theabiodunodu?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "unloading",
     "currentLocation": { "lat": 5.6250, "lng": 0.0030, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -349,7 +449,12 @@
     "id": "GPHA-T-0432",
     "plateNumber": "GR 3355-22",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kwabena Adjei", "phone": "+233 27 555 0432" },
+    "driver": {
+      "name": "Kwabena Adjei",
+      "phone": "+233 27 555 0432",
+      "photoUrl": "https://images.unsplash.com/photo-1625191824973-894292e94c96?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MjZ8fGdoYW5hJTIwbWFufGVufDF8fHx8MTc5MDU0MDY2OXww&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Kojo Kwarteng", "url": "https://unsplash.com/@cwojo?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "offline",
     "currentLocation": { "lat": 5.6435, "lng": 0.0210, "heading": 45, "speedKmh": 0 },
     "currentCargo": {
@@ -365,7 +470,12 @@
     "id": "GPHA-T-0598",
     "plateNumber": "GR 6622-23",
     "vehicleType": "flatbed",
-    "driver": { "name": "Yaw Mensah", "phone": "+233 24 555 0598" },
+    "driver": {
+      "name": "Yaw Mensah",
+      "phone": "+233 24 555 0598",
+      "photoUrl": "https://images.unsplash.com/photo-1625181796571-7f0d4571ab12?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MjR8fGFmcmljYW4lMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3OTA1NDA2NjZ8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Divine Effiong", "url": "https://unsplash.com/@iamdivineeffiong?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6325, "lng": 0.0125, "heading": 180, "speedKmh": 17 },
     "currentCargo": {
@@ -387,7 +497,12 @@
     "id": "GPHA-T-0349",
     "plateNumber": "GR 4488-21",
     "vehicleType": "container_truck",
-    "driver": { "name": "Kwasi Owusu", "phone": "+233 20 555 0349" },
+    "driver": {
+      "name": "Kwasi Owusu",
+      "phone": "+233 20 555 0349",
+      "photoUrl": "https://images.unsplash.com/photo-1687422810308-9841bbd740d7?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NTh8fGFmcmljYW4lMjB0cnVjayUyMGRyaXZlcnxlbnwxfHx8fDE3OTA1NDA2Njl8MA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Ali Mkumbwa", "url": "https://unsplash.com/@mkumbwajr?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "loading",
     "currentLocation": { "lat": 5.6310, "lng": 0.0130, "heading": 0, "speedKmh": 0 },
     "currentCargo": {
@@ -403,7 +518,12 @@
     "id": "GPHA-T-0156",
     "plateNumber": "GR 7799-24",
     "vehicleType": "container_truck",
-    "driver": { "name": "Ekow Asante", "phone": "+233 26 555 0156" },
+    "driver": {
+      "name": "Ekow Asante",
+      "phone": "+233 26 555 0156",
+      "photoUrl": "https://images.unsplash.com/photo-1715005881129-266ccdd75e43?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8NTF8fGdoYW5haWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjY1fDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "thisGUYshoots", "url": "https://unsplash.com/@block_08?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "in_transit",
     "currentLocation": { "lat": 5.6420, "lng": -0.0030, "heading": 320, "speedKmh": 54 },
     "currentCargo": { "type": "empty", "description": "Empty container, returning to depot", "weightTonnes": 0 },
@@ -421,7 +541,12 @@
     "id": "GPHA-T-0728",
     "plateNumber": "GR 2266-22",
     "vehicleType": "terminal_tractor",
-    "driver": { "name": "Kwame Boateng", "phone": "+233 24 555 0728" },
+    "driver": {
+      "name": "Kwame Boateng",
+      "phone": "+233 24 555 0728",
+      "photoUrl": "https://images.unsplash.com/photo-1739566583814-fcead808e96f?ixid=M3wxMDg1MTIxfDB8MXxzZWFyY2h8MzJ8fG5pZ2VyaWFuJTIwbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzkwNTQwNjcxfDA&ixlib=rb-4.1.0&w=256&h=256&fit=facearea&facepad=2.6&q=80&auto=format",
+      "photoCredit": { "name": "Moon Bouy", "url": "https://unsplash.com/@jackson345?utm_source=gpha_cargo_tracker&utm_medium=referral" }
+    },
     "status": "idle",
     "currentLocation": { "lat": 5.6350, "lng": 0.0140, "heading": 0, "speedKmh": 0 },
     "currentCargo": { "type": "empty", "description": "Empty chassis", "weightTonnes": 0 },

@@ -2,16 +2,25 @@
 
 import { ChevronLeft } from "lucide-react";
 import { useFleetStore } from "@/lib/store/useFleetStore";
+import { useStatusCounts } from "@/lib/hooks/useStatusCounts";
 import {
-  STATUS_COLORS,
+  STATUS_COLOR_VARS,
   STATUS_LABELS,
-  type TruckStatus,
+  STATUS_ON_COLOR,
+  STATUS_ORDER,
 } from "@/lib/types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import StatusIcon from "@/components/ui/StatusIcon";
+import { cn } from "@/lib/utils";
 
-const ORDER: TruckStatus[] = ["in_transit", "loading", "unloading", "idle", "offline"];
-
+// Collapsed panel: the status tiles stacked in a slim column.
 export default function CollapsedRail() {
-  const trucks = useFleetStore((s) => s.trucks);
+  const counts = useStatusCounts();
+  const statusFilter = useFleetStore((s) => s.statusFilter);
   const setPanelState = useFleetStore((s) => s.setPanelState);
   const toggleFilter = useFleetStore((s) => s.toggleStatusFilter);
   const clearFilter = useFleetStore((s) => s.clearStatusFilter);
@@ -19,40 +28,61 @@ export default function CollapsedRail() {
   const expand = () => setPanelState("list");
 
   return (
-    <aside className="panel-glass absolute top-0 right-0 h-full w-12 border-l border-white/10 z-20 flex flex-col items-center py-3 gap-2">
+    <aside
+      aria-label="Trucks (collapsed)"
+      className="absolute top-3 right-3 w-16 z-20 flex flex-col items-center gap-2 p-2 rounded-[20px] bg-sheet shadow-sheet"
+    >
       <button
+        type="button"
         onClick={expand}
-        className="w-8 h-8 rounded hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-slate-200 transition-colors"
-        aria-label="Expand panel"
+        className="w-10 h-10 rounded-xl hover:bg-tint flex items-center justify-center text-ink-2 hover:text-ink transition-colors"
+        aria-label="Show truck list"
+        title="Show truck list"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="w-[18px] h-[18px]" />
       </button>
-      <div className="w-6 h-px bg-white/10 my-1" />
-      <div className="flex flex-col gap-2 mt-1">
-        {ORDER.map((status) => {
-          const count = trucks.filter((t) => t.status === status).length;
-          return (
-            <button
-              key={status}
-              onClick={() => {
-                clearFilter();
-                toggleFilter(status);
-                expand();
-              }}
-              title={`${STATUS_LABELS[status]} (${count})`}
-              className="flex flex-col items-center gap-0.5 group"
-            >
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ background: STATUS_COLORS[status] }}
-              />
-              <span className="text-[11px] tabular-nums text-slate-400 group-hover:text-slate-200 transition-colors">
-                {count}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      {STATUS_ORDER.map((status) => {
+        const label = STATUS_LABELS[status];
+        const active = statusFilter.has(status);
+        return (
+          <Tooltip key={status}>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                onClick={() => {
+                  clearFilter();
+                  toggleFilter(status);
+                  expand();
+                }}
+                aria-label={`Show ${label.toLowerCase()} trucks (${counts[status]})`}
+                className={cn(
+                  "w-12 h-14 rounded-xl flex flex-col items-center justify-center gap-1 transition-colors",
+                  active
+                    ? "bg-(--tone) text-(--on-tone)"
+                    : "bg-[color-mix(in_srgb,var(--tone)_13%,white)] hover:bg-[color-mix(in_srgb,var(--tone)_22%,white)] text-ink",
+                )}
+                style={
+                  {
+                    "--tone": STATUS_COLOR_VARS[status],
+                    "--on-tone": STATUS_ON_COLOR[status],
+                  } as React.CSSProperties
+                }
+              >
+                <StatusIcon
+                  status={status}
+                  className={cn("w-4 h-4", !active && "text-(--tone)")}
+                />
+                <span className="text-[16px] font-bold leading-none">
+                  {counts[status]}
+                </span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="left" sideOffset={10}>
+              {label}: {counts[status]}
+            </TooltipContent>
+          </Tooltip>
+        );
+      })}
     </aside>
   );
 }

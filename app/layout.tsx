@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Rubik } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const rubik = Rubik({
+  variable: "--font-rubik",
   subsets: ["latin"],
 });
 
@@ -20,9 +20,6 @@ export const metadata: Metadata = {
   title: "GPHA Cargo Tracker — Tema Port",
   description:
     "Live operations dashboard for Ghana Ports and Harbours Authority cargo fleet at Tema Port.",
-  icons: {
-    icon: "/gpha-logo.png",
-  },
   openGraph: {
     title: "GPHA Cargo Tracker — Tema Port",
     description:
@@ -30,13 +27,22 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.svg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "GPHA Cargo Tracker live operations dashboard",
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-image.png"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -47,10 +53,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} dark h-full antialiased`}
+      className={`${rubik.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="bg-[#0B0F19] text-slate-200 min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col">
         <TooltipProvider delayDuration={150}>{children}</TooltipProvider>
       </body>
     </html>

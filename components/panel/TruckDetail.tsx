@@ -1,45 +1,31 @@
 "use client";
 
-import { ArrowLeft, MapPin, Phone } from "lucide-react";
+import { Check, Phone } from "lucide-react";
 import { useFleetStore } from "@/lib/store/useFleetStore";
+import { useNow } from "@/lib/hooks/useNow";
 import {
-  STATUS_COLORS,
-  STATUS_LABELS,
-  type Truck,
+  compassWord,
+  formatAgo,
+  formatDuration,
+  formatHourMinute,
+  formatLatLng,
+  isoToMs,
+} from "@/lib/format";
+import { nodeName } from "@/lib/port-graph";
+import { lastSeenPhrase, statusSentence } from "@/lib/status-copy";
+import {
+  STATUS_COLOR_VARS,
+  VEHICLE_TYPE_LABELS,
+  type TruckRoute,
 } from "@/lib/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import StatusPill from "@/components/ui/StatusPill";
+import SectionHeader from "@/components/ui/SectionHeader";
+import KeyValue, { type KeyValueItem } from "@/components/ui/KeyValue";
+import TruckAvatar from "@/components/ui/TruckAvatar";
+import PlateBadge from "@/components/ui/PlateBadge";
+import DriverAvatar from "@/components/ui/DriverAvatar";
 import { cn } from "@/lib/utils";
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .filter(Boolean)
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-}
-
-function relativeTime(iso: string): string {
-  const then = new Date(iso).getTime();
-  const now = Date.now();
-  const diffMin = Math.max(0, Math.round((now - then) / 60000));
-  if (diffMin < 1) return "just now";
-  if (diffMin < 60) return `${diffMin} min ago`;
-  const hr = Math.floor(diffMin / 60);
-  const mn = diffMin % 60;
-  return `${hr}h ${mn}m ago`;
-}
-
-function VehicleTypeLabel({ type }: { type: Truck["vehicleType"] }) {
-  const map: Record<Truck["vehicleType"], string> = {
-    container_truck: "Container truck",
-    flatbed: "Flatbed",
-    tanker: "Tanker",
-    terminal_tractor: "Terminal tractor",
-  };
-  return <span>{map[type]}</span>;
-}
 
 function Section({
   label,
@@ -49,182 +35,247 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="px-5 py-3 border-b border-white/5">
-      <div className="text-[11px] uppercase tracking-wider text-slate-500 mb-1.5">
-        {label}
-      </div>
-      <div className="text-[13px] text-slate-200 leading-relaxed">
-        {children}
-      </div>
-    </div>
+    <section className="px-5 py-3">
+      <SectionHeader>{label}</SectionHeader>
+      <div className="text-[14px] text-ink leading-relaxed">{children}</div>
+    </section>
+  );
+}
+
+function ago(iso: string | undefined, now: number) {
+  const ms = isoToMs(iso);
+  return ms && now ? formatAgo(ms, now) : "a moment ago";
+}
+
+// Vertical list of stops: done stops get a tick, the next stop pulses, and
+// the destination carries the arrival time.
+function Journey({
+  route,
+  color,
+  now,
+}: {
+  route: TruckRoute;
+  color: string;
+  now: number;
+}) {
+  const stops = [route.originNodeId, ...route.waypointNodeIds];
+  const legs = Math.max(1, stops.length - 1);
+  const travelled = (route.progressPercent / 100) * legs;
+  const reached = Math.floor(travelled);
+  const etaMs = isoToMs(route.etaTimestamp);
+  const remainingMs = etaMs && now ? etaMs - now : null;
+
+  return (
+    <ol aria-label="Journey">
+      {stops.map((id, i) => {
+        const isFirst = i === 0;
+        const isLast = i === stops.length - 1;
+        const done = i <= reached && !isLast;
+        const isNext = i === reached + 1;
+        const legFill = i < reached ? 1 : i === reached ? travelled - reached : 0;
+        return (
+          <li key={`${id}-${i}`} className="relative flex gap-3 min-h-11">
+            {!isLast && (
+              <span
+                aria-hidden
+                className="absolute left-[11px] top-6 bottom-0 w-0.5 rounded-full bg-tint-2 overflow-hidden"
+              >
+                <span
+                  className="block w-full rounded-full transition-[height] duration-500"
+                  style={{ height: `${legFill * 100}%`, background: color }}
+                />
+              </span>
+            )}
+            <span
+              aria-hidden
+              className={cn(
+                "relative z-10 mt-0.5 w-6 h-6 shrink-0 rounded-full flex items-center justify-center",
+                !done && "bg-white ring-2",
+              )}
+              style={
+                done
+                  ? { background: color }
+                  : ({ "--tw-ring-color": isNext || isLast ? color : "var(--tint-2)" } as React.CSSProperties)
+              }
+            >
+              {done && <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />}
+              {isNext && !isLast && (
+                <span className="w-2 h-2 rounded-full" style={{ background: color }} />
+              )}
+            </span>
+            <span className="pb-3 min-w-0">
+              <span
+                className={cn(
+                  "block text-[14px]",
+                  isLast ? "font-semibold text-ink" : done ? "text-ink-2" : "text-ink",
+                )}
+              >
+                {nodeName(id)}
+              </span>
+              {isFirst && <span className="block text-[12px] text-ink-3">Started here</span>}
+              {isLast && etaMs && (
+                <span className="block text-[13px] text-ink-2">
+                  {remainingMs !== null && remainingMs <= 5_000
+                    ? "Arriving now"
+                    : `Arriving ${formatHourMinute(etaMs)}${
+                        remainingMs !== null ? `, in ${formatDuration(remainingMs)}` : ""
+                      }`}
+                </span>
+              )}
+            </span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
 export default function TruckDetail({ truckId }: { truckId: string }) {
-  const truck = useFleetStore((s) =>
-    s.trucks.find((t) => t.id === truckId),
-  );
-  const selectTruck = useFleetStore((s) => s.selectTruck);
-  const followSelected = useFleetStore((s) => s.followSelected);
-  const toggleFollow = useFleetStore((s) => s.toggleFollow);
+  const truck = useFleetStore((s) => s.trucks.find((t) => t.id === truckId));
+  const now = useNow();
 
   if (!truck) {
     return (
-      <div className="p-5 text-[13px] text-slate-500">Truck not found.</div>
+      <div className="px-5 py-8 text-[14px] text-ink-2">
+        This truck has left the fleet feed. Go back to pick another.
+      </div>
     );
   }
 
-  const color = STATUS_COLORS[truck.status];
+  const color = STATUS_COLOR_VARS[truck.status];
   const isOffline = truck.status === "offline";
+  const { currentLocation: loc, currentCargo: cargo } = truck;
+  const speed = Math.round(loc.speedKmh);
+  const heading = Math.round(loc.heading);
+  const arrivedMs = isoToMs(truck.lastStopped.timestamp);
+  const dwelling =
+    truck.status === "loading" ||
+    truck.status === "unloading" ||
+    truck.status === "idle";
+
+  let subline: string | null = null;
+  if (isOffline) {
+    const seen = lastSeenPhrase(truck, now);
+    subline = seen ? `No signal ${seen}` : "No signal";
+  } else if (dwelling && arrivedMs && now) {
+    subline = `For ${formatDuration(now - arrivedMs)} so far`;
+  } else if (truck.status === "in_transit" && truck.currentRoute) {
+    subline = `${truck.currentRoute.progressPercent}% of the way there`;
+  }
+
+  const cargoItems: KeyValueItem[] = [
+    {
+      label: "Weight",
+      value: cargo.weightTonnes > 0 ? `${cargo.weightTonnes} t` : "Empty",
+    },
+  ];
+  if (cargo.containerNumber) {
+    cargoItems.push({ label: "Container", value: cargo.containerNumber });
+  }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-3 py-2 border-b border-white/5 shrink-0">
-        <button
-          onClick={() => selectTruck(null)}
-          className="flex items-center gap-1.5 px-2 h-7 rounded text-[13px] text-slate-300 hover:text-slate-100 hover:bg-white/5 transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Back
-        </button>
-        <button
-          onClick={toggleFollow}
-          className={cn(
-            "flex items-center gap-1.5 px-2 h-7 rounded text-[12px] transition-colors",
-            followSelected
-              ? "bg-[#CE1126]/20 text-slate-100"
-              : "text-slate-400 hover:text-slate-200 hover:bg-white/5",
-          )}
-        >
-          <MapPin className="w-3.5 h-3.5" />
-          Follow
-        </button>
-      </div>
-
-      <ScrollArea className="flex-1 min-h-0">
-        <div className="px-5 pt-5 pb-3 border-b border-white/5">
-          <div
-            className="inline-flex items-center gap-1.5 px-2.5 h-7 rounded-full text-[12px] font-semibold uppercase tracking-wider"
-            style={{
-              background: `${color}26`,
-              color,
-              boxShadow: `inset 0 0 0 1px ${color}55`,
-            }}
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ background: color }}
-            />
-            {STATUS_LABELS[truck.status]}
-          </div>
-          <div
-            className="mt-3 font-mono text-[23px] font-semibold leading-tight"
-            style={{ color }}
-          >
-            {truck.id}
-          </div>
-          <div className="text-[13px] text-slate-400 mt-0.5">
-            {truck.plateNumber} · <VehicleTypeLabel type={truck.vehicleType} />
-          </div>
-        </div>
-
-        <Section label="Driver">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-semibold text-slate-100 shrink-0"
-              style={{
-                background: "rgba(206, 17, 38, 0.2)",
-                color: "#FCA5A5",
-              }}
-            >
-              {initials(truck.driver.name)}
+    <ScrollArea className="h-full">
+      <div
+        className="mx-3 rounded-2xl p-4"
+        style={{ background: `color-mix(in srgb, ${color} 12%, white)` }}
+      >
+        <div className="flex items-start gap-3">
+          <TruckAvatar
+            vehicleType={truck.vehicleType}
+            status={truck.status}
+            size={60}
+            className="bg-white!"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[22px] font-semibold leading-tight text-ink truncate">
+                {truck.id}
+              </span>
+              <StatusPill status={truck.status} className="ml-auto" />
             </div>
-            <div className="min-w-0">
-              <div className="text-[14px] font-medium text-slate-100">
-                {truck.driver.name}
-              </div>
-              <div className="text-[12px] text-slate-400 flex items-center gap-1">
-                <Phone className="w-3 h-3" />
-                {truck.driver.phone}
-              </div>
-            </div>
-          </div>
-        </Section>
-
-        <Section label="Current Cargo">
-          <div className="font-medium text-slate-100">
-            {truck.currentCargo.description}
-          </div>
-          <div className="text-[12px] text-slate-400 mt-1">
-            {truck.currentCargo.weightTonnes > 0
-              ? `${truck.currentCargo.weightTonnes} t`
-              : "Empty"}
-          </div>
-          {truck.currentCargo.containerNumber && (
-            <div className="text-[12px] text-slate-500 mt-1 font-mono">
-              Container #: {truck.currentCargo.containerNumber}
-            </div>
-          )}
-        </Section>
-
-        <Section label="Location">
-          <div className="font-mono text-[13px] text-slate-200">
-            {truck.currentLocation.lat.toFixed(4)}° N,{" "}
-            {truck.currentLocation.lng.toFixed(4)}° E
-          </div>
-          {!isOffline && (
-            <div className="text-[12px] text-slate-400 mt-1">
-              {truck.currentLocation.speedKmh} km/h ·{" "}
-              {truck.currentLocation.speedKmh > 0
-                ? `heading ${truck.currentLocation.heading}°`
-                : "stationary"}
-            </div>
-          )}
-          <div className="text-[12px] text-slate-500 mt-1">
-            {isOffline ? "Last seen at " : "Last stopped: "}
-            {truck.lastStopped.locationName} ·{" "}
-            {relativeTime(truck.lastStopped.timestamp)}
-          </div>
-        </Section>
-
-        {truck.currentRoute && (
-          <Section label="Route">
-            <div className="text-[13px] text-slate-200">
-              {truck.currentRoute.originNodeId.replace(/-/g, " ")} →{" "}
-              {truck.currentRoute.destinationNodeId.replace(/-/g, " ")}
-            </div>
-            <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-[width] duration-500"
-                style={{
-                  width: `${truck.currentRoute.progressPercent}%`,
-                  background: color,
-                }}
-              />
-            </div>
-            <div className="mt-1.5 flex items-center justify-between text-[11px] text-slate-500">
-              <span>{truck.currentRoute.progressPercent}%</span>
-              <span className="tabular-nums">
-                ETA{" "}
-                {new Date(truck.currentRoute.etaTimestamp).toLocaleTimeString(
-                  [],
-                  { hour: "2-digit", minute: "2-digit" },
-                )}
+            <div className="mt-1.5 flex items-center gap-2">
+              <PlateBadge plate={truck.plateNumber} size="lg" />
+              <span className="text-[13px] text-ink-2 truncate">
+                {VEHICLE_TYPE_LABELS[truck.vehicleType]}
               </span>
             </div>
+          </div>
+        </div>
+        <div className="mt-4 text-[17px] font-semibold text-ink leading-snug">
+          {statusSentence(truck)}
+        </div>
+        {subline && (
+          <div
+            className={cn(
+              "text-[13px]",
+              isOffline ? "text-status-offline font-medium" : "text-ink-2",
+            )}
+          >
+            {subline}
+          </div>
+        )}
+      </div>
+
+      <div className={cn("pt-2 pb-4", isOffline && "opacity-70")}>
+        {truck.status === "in_transit" && truck.currentRoute && (
+          <Section label="Journey">
+            <Journey route={truck.currentRoute} color={color} now={now} />
           </Section>
         )}
 
-        <Section label="History">
-          <div className="text-[12px] text-slate-400">
-            Last unloaded: {truck.lastUnloaded.locationName} ·{" "}
-            {relativeTime(truck.lastUnloaded.timestamp)}
-          </div>
-          <div className="text-[12px] text-slate-500 mt-1">
-            {truck.lastUnloaded.cargoDescription}
+        <Section label="Driver">
+          <div className="flex items-center gap-3">
+            <DriverAvatar driver={truck.driver} size={48} />
+            <span className="min-w-0 flex-1">
+              <span className="block text-[15px] font-medium truncate">
+                {truck.driver.name}
+              </span>
+              <span className="block text-[13px] text-ink-2">
+                {truck.driver.phone}
+              </span>
+            </span>
+            <a
+              href={`tel:${truck.driver.phone.replace(/\s+/g, "")}`}
+              className="flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-ink text-white text-[13px] font-semibold hover:bg-ink/90 transition-colors shrink-0"
+            >
+              <Phone aria-hidden className="w-3.5 h-3.5" />
+              Call
+            </a>
           </div>
         </Section>
-      </ScrollArea>
-    </div>
+
+        <Section label="Carrying">
+          <p className="mb-2.5">{cargo.description}</p>
+          <KeyValue items={cargoItems} />
+        </Section>
+
+        <Section label="Where it is">
+          {!isOffline && (
+            <p title={speed > 0 ? `Heading ${heading}°` : undefined}>
+              {speed > 0
+                ? `Driving ${compassWord(heading)} at ${speed} km/h`
+                : "Standing still"}
+            </p>
+          )}
+          <p className="text-ink-2 text-[13px]">
+            Last stopped at {truck.lastStopped.locationName},{" "}
+            {ago(truck.lastStopped.timestamp, now)}
+          </p>
+          <p className="mt-1 text-[12px] text-ink-3">
+            {formatLatLng(loc.lat, loc.lng)}
+          </p>
+        </Section>
+
+        <Section label="Last drop-off">
+          <p>
+            Unloaded at {truck.lastUnloaded.locationName},{" "}
+            {ago(truck.lastUnloaded.timestamp, now)}
+          </p>
+          <p className="text-[13px] text-ink-2">
+            {truck.lastUnloaded.cargoDescription}
+          </p>
+        </Section>
+      </div>
+    </ScrollArea>
   );
 }
